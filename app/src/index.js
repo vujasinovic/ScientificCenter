@@ -8,6 +8,7 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Nav, Navbar, NavbarBrand, NavItem, NavLink} from "reactstrap";
 import Notfound from "./notFound";
 import Home from "./home/home";
+import CreateMagazine from "./create_magazine/createMagazine";
 
 const routing = (
     <Router>
@@ -28,6 +29,7 @@ const routing = (
             </Navbar>
             <Switch>
                 <Route exact path="/" component={Home}/>
+                <Route path="/createMagazine" component={CreateMagazine}/>
                 <Route component={Notfound}/>
             </Switch>
         </div>
