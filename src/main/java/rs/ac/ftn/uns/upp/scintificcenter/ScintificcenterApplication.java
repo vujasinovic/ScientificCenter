@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableProcessApplication
 public class ScintificcenterApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ScintificcenterApplication.class, args);
     }
-
 }
