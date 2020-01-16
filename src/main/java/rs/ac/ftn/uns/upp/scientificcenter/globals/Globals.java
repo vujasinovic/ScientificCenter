@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scientificcenter;
+package rs.ac.ftn.uns.upp.scientificcenter.globals;
 
 public abstract class Globals {
     public static class Magazine {

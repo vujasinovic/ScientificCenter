@@ -1,15 +1,16 @@
 package rs.ac.ftn.uns.upp.scientificcenter.service.implementation;
 
+import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.form.TaskFormData;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import rs.ac.ftn.uns.upp.scientificcenter.Globals;
+import rs.ac.ftn.uns.upp.scientificcenter.bom.Magazine;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
+import rs.ac.ftn.uns.upp.scientificcenter.repository.MagazineRepository;
 import rs.ac.ftn.uns.upp.scientificcenter.service.MagazineService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.TaskService;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class MagazineServiceImpl implements MagazineService {
     private static final String PROCESS_NAME = "createMagazine";
     private static final String FORM_DATA = "formData";
@@ -26,16 +28,12 @@ public class MagazineServiceImpl implements MagazineService {
     private final ProcessService processService;
 
     private final TaskService taskService;
-    @Autowired
-    private RuntimeService runtimeService;
 
-    @Autowired
-    FormService formService;
+    private final MagazineRepository magazineRepository;
 
-    public MagazineServiceImpl(ProcessService processService, TaskService taskService) {
-        this.processService = processService;
-        this.taskService = taskService;
-    }
+    private final RuntimeService runtimeService;
+
+    private final FormService formService;
 
     @Override
     public FormFieldDto startProcess() {
@@ -82,5 +80,20 @@ public class MagazineServiceImpl implements MagazineService {
         }
 
         return dtos;
+    }
+
+    @Override
+    public Magazine save(Magazine magazine) {
+        return magazineRepository.save(magazine);
+    }
+
+    @Override
+    public Magazine getOne(Long id) {
+        return magazineRepository.getOne(id);
+    }
+
+    @Override
+    public List<Magazine> findAll() {
+        return magazineRepository.findAll();
     }
 }

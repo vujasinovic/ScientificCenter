@@ -10,7 +10,7 @@ import rs.ac.ftn.uns.upp.scientificcenter.service.MagazineService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static rs.ac.ftn.uns.upp.scientificcenter.MapUtils.cast;
+import static rs.ac.ftn.uns.upp.scientificcenter.utils.MapUtils.cast;
 
 @RestController
 @RequestMapping(value = "/api/magazine")

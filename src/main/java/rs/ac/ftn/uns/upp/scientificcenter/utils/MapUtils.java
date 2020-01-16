@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scientificcenter;
+package rs.ac.ftn.uns.upp.scientificcenter.utils;
 
 import java.util.HashMap;
 import java.util.Map;
