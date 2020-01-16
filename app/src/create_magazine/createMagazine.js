@@ -1,8 +1,66 @@
 import {Component, default as React} from "react";
 import axios from "axios";
 import {generate} from "../formGenerator";
+import Form from "reactstrap/lib/Form";
+import FormGroup from "reactstrap/lib/FormGroup";
+import Label from "reactstrap/lib/Label";
+import Button from "reactstrap/lib/Button";
+import {inputType} from "../const/inputType";
+import Input from "reactstrap/lib/Input";
 
 class CreateMagazine extends Component {
+    constructor() {
+        super();
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+
+    generate(formFields) {
+        let retVal;
+
+        retVal = <Form onSubmit={this.handleSubmit}>
+            {formFields.map(formField =>
+                <FormGroup key={formField.id}>
+                    <Label for={formField.id}>{formField.label}</Label>
+                    {this.generateInputField(formField)}
+                </FormGroup>
+            )}
+            <Button color="primary">Submit</Button>
+        </Form>;
+
+        return retVal;
+    }
+
+    generateInputField(formField) {
+        let retVal;
+
+        const typeName = formField.type.name;
+
+        console.log(typeName);
+
+        const id = formField.id;
+
+        if (typeName === inputType.STRING) {
+            retVal = <Input type="text" name={id} id={id}/>;
+        } else if (typeName === inputType.DATE) {
+            retVal = <Input type="date" name={id} id={id}/>;
+        } else if (typeName === inputType.LONG) {
+            retVal = <Input type="number" name={id} id={id}/>;
+        } else if (typeName === inputType.BOOL) {
+            retVal = <Input className="ml-2" type="checkbox" name={id} id={id}/>
+        } else if (typeName === inputType.ENUM) {
+            let options = Object.values(formField.type.values);
+
+            retVal = <Input type="select" name={id} id={id}>
+                {options.map(option => <option key={option}>{option}</option>)}
+            </Input>;
+        } else {
+            retVal = <Input type="text" name={id} id={id}/>;
+        }
+
+        return retVal;
+    }
+
     state = {
         isLoading: true,
         taskFormFields: {
@@ -12,8 +70,32 @@ class CreateMagazine extends Component {
         }
     };
 
+    async handleSubmit(event) {
+        event.preventDefault();
+
+        const requestData = new FormData(event.target);
+
+        let {data} = await axios.post('/api/magazine/' + this.state.taskFormFields.taskId, requestData);
+
+        if (data === "") {
+            window.location = "/";
+        } else {
+            window.location = '/createMagazine/' + data.id;
+        }
+    }
+
     async componentDidMount() {
-        const response = await axios.get('/api/magazine');
+        let url = '/api/magazine';
+        let taskId = this.props.match.params.id;
+
+
+        if (taskId !== undefined) {
+            url = url + "/" + taskId;
+            console.log(url);
+        }
+
+        const response = await axios.get(url);
+
         const body = response.data;
 
         this.setState({isLoading: false, taskFormFields: body});
@@ -29,7 +111,7 @@ class CreateMagazine extends Component {
                 <div className="container-fluid">
                     <h5>Process instance id: {taskFormFields.processInstanceId}</h5>
                     <h5>Task id: {taskFormFields.taskId}</h5>
-                    {generate(taskFormFields.formFields)}
+                    {this.generate(taskFormFields.formFields)}
                 </div>
             )
         }

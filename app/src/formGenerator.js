@@ -1,26 +1,7 @@
 import Input from "reactstrap/lib/Input";
 import {default as React} from "react";
-import FormGroup from "reactstrap/lib/FormGroup";
-import Label from "reactstrap/lib/Label";
-import Form from "reactstrap/lib/Form";
 import {inputType} from "./const/inputType";
-import Button from "reactstrap/lib/Button";
 
-export function generate(formFields) {
-    let retVal;
-
-    retVal = <Form>
-        {formFields.map(formField =>
-            <FormGroup key={formField.id}>
-                <Label for={formField.id}>{formField.label}</Label>
-                {generateInputField(formField)}
-            </FormGroup>
-        )}
-        <Button color="primary">Submit</Button>
-    </Form>;
-
-    return retVal;
-}
 
 function generateInputField(formField) {
     let retVal;

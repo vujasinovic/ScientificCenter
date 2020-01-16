@@ -26,7 +26,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_12my941" sourceRef="Task_00nb8aw" targetRef="anotherOne" />
     <bpmn:sequenceFlow id="SequenceFlow_16l7tjv" sourceRef="anotherOne" targetRef="ExclusiveGateway_1an6dev" />
     <bpmn:sequenceFlow id="SequenceFlow_1lx4mcb" name="No more" sourceRef="ExclusiveGateway_1an6dev" targetRef="Task_1a3dgau">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${anotherOne == false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${anotherOne == "no"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:userTask id="Task_09gbsqe" name="Enter basic magazine information" camunda:assignee="${editor}">
       <bpmn:extensionElements>
@@ -66,14 +66,17 @@
     <bpmn:userTask id="anotherOne" name="Another one?" camunda:assignee="${editor}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="anotherOne" label="Do you want to add another scientific area?" type="boolean" />
+          <camunda:formField id="anotherOne" label="Do you want to add another scientific area?" type="enum">
+            <camunda:value id="yes" name="Yes" />
+            <camunda:value id="no" name="No" />
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_12my941</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_16l7tjv</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_0zi3eyk" name="One more" sourceRef="ExclusiveGateway_1an6dev" targetRef="ExclusiveGateway_0u4ouju">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${anotherOne == true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${anotherOne == "yes"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="Task_1a3dgau" name="Data Validation" camunda:expression="${true}" camunda:resultVariable="dataValid">
       <bpmn:incoming>SequenceFlow_1lx4mcb</bpmn:incoming>
@@ -118,16 +121,14 @@
     <bpmn:userTask id="Task_15qbeyr" name="Input magazine editors" camunda:assignee="${editor}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="firstEditor" label="First editor:" type="enum">
-            <camunda:value id="none" />
+          <camunda:formField id="firstEditorEnum" label="First editor:" type="enum">
             <camunda:value id="johndoe" name="John Doe" />
             <camunda:value id="piffjenkins" name="Piff Jenkins" />
             <camunda:value id="michaellevenclav" name="Michael Levenclav" />
           </camunda:formField>
-          <camunda:formField id="secondEditor" label="Second editor" type="enum">
-            <camunda:value id="none" />
+          <camunda:formField id="secondEditorEnum" label="Second editor" type="enum">
             <camunda:value id="jackdoe" name="Jack Doe" />
-            <camunda:value id="mattjankins" name="Matt Jenkins" />
+            <camunda:value id="mattjenkins" name="Matt Jenkins" />
             <camunda:value id="anthonymustart" name="Anthony Mustart" />
           </camunda:formField>
         </camunda:formData>
@@ -138,21 +139,21 @@
     <bpmn:userTask id="Task_1ritq4h" name="Input magazine reviewers" camunda:assignee="${editor}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="firstReviewer" label="First reviewer" type="enum">
+          <camunda:formField id="firstReviewerEnum" label="First reviewer" type="enum">
             <camunda:validation>
               <camunda:constraint name="required" />
             </camunda:validation>
-            <camunda:value id="rev1" name="First Reviewer" />
-            <camunda:value id="rev2" name="Second Reviewer" />
-            <camunda:value id="rev3" name="Thrid Reviewer" />
+            <camunda:value id="firstreviewer" name="First Reviewer" />
+            <camunda:value id="secondreviewer" name="Second Reviewer" />
+            <camunda:value id="thirdreviewer" name="Third Reviewer" />
           </camunda:formField>
-          <camunda:formField id="secondReviewer" label="Second Reviewer:" type="enum">
+          <camunda:formField id="secondReviewerEnum" label="Second Reviewer:" type="enum">
             <camunda:validation>
               <camunda:constraint name="required" />
             </camunda:validation>
-            <camunda:value id="srev1" name="Foo Reviewer" />
-            <camunda:value id="srev2" name="Bar Reviewer" />
-            <camunda:value id="srev3" name="Baz Reviewer" />
+            <camunda:value id="fooreviewer" name="Foo Reviewer" />
+            <camunda:value id="barreviewer" name="Bar Reviewer" />
+            <camunda:value id="bazreviewer" name="Baz Reviewer" />
           </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
@@ -169,7 +170,10 @@
     <bpmn:userTask id="Task_1iv61q5" name="Check all" camunda:assignee="demo">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="checkAll" label="All data ok?" type="boolean" />
+          <camunda:formField id="checkAll" label="All data ok?" type="enum">
+            <camunda:value id="yes" name="Yes" />
+            <camunda:value id="no" name="No" />
+          </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1mrf2cn</bpmn:incoming>
@@ -185,13 +189,13 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0wnf5sq" sourceRef="Task_1iv61q5" targetRef="ExclusiveGateway_0q2rsmx" />
     <bpmn:sequenceFlow id="SequenceFlow_010wlbn" name="Not ok" sourceRef="ExclusiveGateway_0q2rsmx" targetRef="Task_09gbsqe">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkAll == false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkAll == "no"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="EndEvent_0dc2mid">
       <bpmn:incoming>SequenceFlow_06skrf1</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1amyklh" name="Ok" sourceRef="ExclusiveGateway_0q2rsmx" targetRef="Task_0w4m3yu">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkAll == true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkAll == "yes"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_06skrf1" sourceRef="Task_0w4m3yu" targetRef="EndEvent_0dc2mid" />
     <bpmn:serviceTask id="Task_0w4m3yu" name="Activate " camunda:expression="${true}" camunda:resultVariable="active">

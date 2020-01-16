@@ -29,6 +29,7 @@ const routing = (
             </Navbar>
             <Switch>
                 <Route exact path="/" component={Home}/>
+                <Route path="/createMagazine/:id" component={CreateMagazine}/>
                 <Route path="/createMagazine" component={CreateMagazine}/>
                 <Route component={Notfound}/>
             </Switch>
