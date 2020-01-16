@@ -25,4 +25,10 @@ public class Magazine {
 
     @ManyToMany
     private List<ScientificArea> scientificAreas;
+
+    @ManyToMany
+    private List<User> editors;
+
+    @ManyToMany
+    private List<User> reviewers;
 }

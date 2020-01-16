@@ -9,12 +9,14 @@ import org.camunda.bpm.engine.task.Task;
 import org.springframework.stereotype.Service;
 import rs.ac.ftn.uns.upp.scientificcenter.bom.Magazine;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
+import rs.ac.ftn.uns.upp.scientificcenter.dto.MagazineDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
 import rs.ac.ftn.uns.upp.scientificcenter.repository.MagazineRepository;
 import rs.ac.ftn.uns.upp.scientificcenter.service.MagazineService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.TaskService;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,11 @@ import java.util.Map;
 public class MagazineServiceImpl implements MagazineService {
     private static final String PROCESS_NAME = "createMagazine";
     private static final String FORM_DATA = "formData";
+
+    private static final String MAGAZINE = "magazine";
+    private static final String SCIENTIFIC_AREAS = "scientificAreas";
+    private static final String EDITORS = "editors";
+    private static final String REVIEWERS = "reviewers";
 
     private final ProcessService processService;
 
@@ -45,7 +52,9 @@ public class MagazineServiceImpl implements MagazineService {
 
         TaskFormData taskFormData = taskService.formData(taskId);
 
-        runtimeService.setVariable(processInstanceId, "foo", "bar");
+        runtimeService.setVariable(processInstanceId, SCIENTIFIC_AREAS, new ArrayList<>());
+        runtimeService.setVariable(processInstanceId, EDITORS, new ArrayList<>());
+        runtimeService.setVariable(processInstanceId, REVIEWERS, new ArrayList<>());
 
         return new FormFieldDto(processInstanceId, taskId, taskFormData.getFormFields());
     }
@@ -61,6 +70,27 @@ public class MagazineServiceImpl implements MagazineService {
         Task task = taskService.getById(taskId);
 
         String processInstanceId = task.getProcessInstanceId();
+
+        List<String> scientificAreas = (List<String>) runtimeService.getVariable(processInstanceId, SCIENTIFIC_AREAS);
+
+        List<String> editors = (List<String>) runtimeService.getVariable(processInstanceId, EDITORS);
+        List<String> reviewers = (List<String>) runtimeService.getVariable(processInstanceId, REVIEWERS);
+
+
+        for (Map.Entry<String, Object> entry : formData.entrySet()) {
+            String key = entry.getKey();
+            if (key.equalsIgnoreCase("scientificArea")) {
+                scientificAreas.add((String) entry.getValue());
+            } else if (key.equalsIgnoreCase("firstEditorEnum") || key.equalsIgnoreCase("secondEditorEnum")) {
+                editors.add((String) entry.getValue());
+            } else if (key.equalsIgnoreCase("firstReviewerEnum") || key.equalsIgnoreCase("secondReviewerEnum")) {
+                reviewers.add((String) entry.getValue());
+            }
+        }
+
+        runtimeService.setVariable(processInstanceId, SCIENTIFIC_AREAS, scientificAreas);
+        runtimeService.setVariable(processInstanceId, EDITORS, editors);
+        runtimeService.setVariable(processInstanceId, REVIEWERS, reviewers);
 
         runtimeService.setVariable(processInstanceId, FORM_DATA, formData);
 

@@ -47,7 +47,7 @@
                 <camunda:formData>
                     <camunda:formField id="scientificArea" label="Scientific area:" type="string" />
                 </camunda:formData>
-                <camunda:executionListener class="rs.ac.ftn.uns.upp.scientificcenter.listener.FooListener" event="end" />
+                <camunda:executionListener class="rs.ac.ftn.uns.upp.scientificcenter.listener.EndTaskListener" event="end" />
             </bpmn:extensionElements>
             <bpmn:incoming>SequenceFlow_1ryfqsx</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_1k4471v</bpmn:outgoing>
@@ -67,18 +67,13 @@
         <bpmn:sequenceFlow id="SequenceFlow_0zi3eyk" name="One more" sourceRef="ExclusiveGateway_1an6dev" targetRef="ExclusiveGateway_0u4ouju">
             <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${anotherOne == "yes"}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
-        <bpmn:serviceTask id="Task_1ugb0lr" name="Magazine creation" camunda:expression="${false}" camunda:resultVariable="active">
-            <bpmn:incoming>SequenceFlow_0z4qmja</bpmn:incoming>
-            <bpmn:outgoing>SequenceFlow_1h3e3dh</bpmn:outgoing>
-        </bpmn:serviceTask>
-        <bpmn:sequenceFlow id="SequenceFlow_1h3e3dh" sourceRef="Task_1ugb0lr" targetRef="Task_1riw43l" />
         <bpmn:serviceTask id="Task_1riw43l" name="Setup main magazine editor" camunda:expression="${editor}" camunda:resultVariable="mainEditor">
-            <bpmn:incoming>SequenceFlow_1h3e3dh</bpmn:incoming>
+            <bpmn:incoming>SequenceFlow_0z4qmja</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_0vwv8px</bpmn:outgoing>
         </bpmn:serviceTask>
         <bpmn:sequenceFlow id="SequenceFlow_0vwv8px" sourceRef="Task_1riw43l" targetRef="editors" />
         <bpmn:sequenceFlow id="SequenceFlow_1q2vt25" sourceRef="editors" targetRef="reviewers" />
-        <bpmn:sequenceFlow id="SequenceFlow_1jqzol7" sourceRef="reviewers" targetRef="Task_1iv61q5" />
+        <bpmn:sequenceFlow id="SequenceFlow_1jqzol7" sourceRef="reviewers" targetRef="ServiceTask_19wyu8b" />
         <bpmn:userTask id="editors" name="Input magazine editors" camunda:assignee="${editor}">
             <bpmn:extensionElements>
                 <camunda:formData>
@@ -130,7 +125,7 @@
                     </camunda:formField>
                 </camunda:formData>
             </bpmn:extensionElements>
-            <bpmn:incoming>SequenceFlow_1jqzol7</bpmn:incoming>
+            <bpmn:incoming>SequenceFlow_1yjmsvr</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_0wnf5sq</bpmn:outgoing>
         </bpmn:userTask>
         <bpmn:exclusiveGateway id="ExclusiveGateway_0q2rsmx">
@@ -163,7 +158,7 @@
             <bpmn:outgoing>SequenceFlow_12mkxi3</bpmn:outgoing>
         </bpmn:exclusiveGateway>
         <bpmn:sequenceFlow id="SequenceFlow_12mkxi3" sourceRef="ExclusiveGateway_17j11cx" targetRef="basicMagazineInformation" />
-        <bpmn:sequenceFlow id="SequenceFlow_0z4qmja" sourceRef="ExclusiveGateway_1an6dev" targetRef="Task_1ugb0lr" />
+        <bpmn:sequenceFlow id="SequenceFlow_0z4qmja" sourceRef="ExclusiveGateway_1an6dev" targetRef="Task_1riw43l" />
         <bpmn:exclusiveGateway id="ExclusiveGateway_0vgll73">
             <bpmn:incoming>SequenceFlow_1djso4l</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_1ov8rnn</bpmn:outgoing>
@@ -179,6 +174,11 @@
         <bpmn:sequenceFlow id="SequenceFlow_1ryfqsx" sourceRef="ExclusiveGateway_0u4ouju" targetRef="scientificAreas" />
         <bpmn:sequenceFlow id="SequenceFlow_1k4471v" sourceRef="scientificAreas" targetRef="anotherOne" />
         <bpmn:sequenceFlow id="SequenceFlow_1p0a4gx" sourceRef="anotherOne" targetRef="ExclusiveGateway_1an6dev" />
+        <bpmn:serviceTask id="ServiceTask_19wyu8b" name="Magazine creation" camunda:delegateExpression="${persistMagazineService}">
+            <bpmn:incoming>SequenceFlow_1jqzol7</bpmn:incoming>
+            <bpmn:outgoing>SequenceFlow_1yjmsvr</bpmn:outgoing>
+        </bpmn:serviceTask>
+        <bpmn:sequenceFlow id="SequenceFlow_1yjmsvr" sourceRef="ServiceTask_19wyu8b" targetRef="Task_1iv61q5" />
     </bpmn:process>
     <bpmndi:BPMNDiagram id="BPMNDiagram_1">
         <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="createMagazine">
@@ -217,33 +217,26 @@
                     <dc:Bounds x="991" y="92" width="49" height="14" />
                 </bpmndi:BPMNLabel>
             </bpmndi:BPMNEdge>
-            <bpmndi:BPMNShape id="ServiceTask_13uvz7r_di" bpmnElement="Task_1ugb0lr">
-                <dc:Bounds x="1350" y="197" width="100" height="80" />
-            </bpmndi:BPMNShape>
-            <bpmndi:BPMNEdge id="SequenceFlow_1h3e3dh_di" bpmnElement="SequenceFlow_1h3e3dh">
-                <di:waypoint x="1400" y="277" />
-                <di:waypoint x="1400" y="350" />
-            </bpmndi:BPMNEdge>
             <bpmndi:BPMNShape id="ServiceTask_0unwqnq_di" bpmnElement="Task_1riw43l">
                 <dc:Bounds x="1350" y="350" width="100" height="80" />
             </bpmndi:BPMNShape>
             <bpmndi:BPMNEdge id="SequenceFlow_0vwv8px_di" bpmnElement="SequenceFlow_0vwv8px">
                 <di:waypoint x="1350" y="390" />
-                <di:waypoint x="960" y="390" />
+                <di:waypoint x="1210" y="390" />
             </bpmndi:BPMNEdge>
             <bpmndi:BPMNEdge id="SequenceFlow_1q2vt25_di" bpmnElement="SequenceFlow_1q2vt25">
-                <di:waypoint x="860" y="390" />
-                <di:waypoint x="790" y="390" />
+                <di:waypoint x="1110" y="390" />
+                <di:waypoint x="1030" y="390" />
             </bpmndi:BPMNEdge>
             <bpmndi:BPMNEdge id="SequenceFlow_1jqzol7_di" bpmnElement="SequenceFlow_1jqzol7">
-                <di:waypoint x="690" y="390" />
-                <di:waypoint x="620" y="390" />
+                <di:waypoint x="930" y="390" />
+                <di:waypoint x="830" y="390" />
             </bpmndi:BPMNEdge>
             <bpmndi:BPMNShape id="UserTask_0d89z4d_di" bpmnElement="editors">
-                <dc:Bounds x="860" y="350" width="100" height="80" />
+                <dc:Bounds x="1110" y="350" width="100" height="80" />
             </bpmndi:BPMNShape>
             <bpmndi:BPMNShape id="UserTask_0i83bxc_di" bpmnElement="reviewers">
-                <dc:Bounds x="690" y="350" width="100" height="80" />
+                <dc:Bounds x="930" y="350" width="100" height="80" />
             </bpmndi:BPMNShape>
             <bpmndi:BPMNShape id="UserTask_1cvhizz_di" bpmnElement="Task_1iv61q5">
                 <dc:Bounds x="520" y="350" width="100" height="80" />
@@ -291,7 +284,8 @@
             </bpmndi:BPMNEdge>
             <bpmndi:BPMNEdge id="SequenceFlow_0z4qmja_di" bpmnElement="SequenceFlow_0z4qmja">
                 <di:waypoint x="1235" y="237" />
-                <di:waypoint x="1350" y="237" />
+                <di:waypoint x="1400" y="237" />
+                <di:waypoint x="1400" y="350" />
             </bpmndi:BPMNEdge>
             <bpmndi:BPMNShape id="ExclusiveGateway_0vgll73_di" bpmnElement="ExclusiveGateway_0vgll73" isMarkerVisible="true">
                 <dc:Bounds x="695" y="212" width="50" height="50" />
@@ -321,6 +315,13 @@
             <bpmndi:BPMNEdge id="SequenceFlow_1p0a4gx_di" bpmnElement="SequenceFlow_1p0a4gx">
                 <di:waypoint x="1150" y="237" />
                 <di:waypoint x="1185" y="237" />
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNShape id="ServiceTask_19wyu8b_di" bpmnElement="ServiceTask_19wyu8b">
+                <dc:Bounds x="730" y="350" width="100" height="80" />
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge id="SequenceFlow_1yjmsvr_di" bpmnElement="SequenceFlow_1yjmsvr">
+                <di:waypoint x="730" y="390" />
+                <di:waypoint x="620" y="390" />
             </bpmndi:BPMNEdge>
         </bpmndi:BPMNPlane>
     </bpmndi:BPMNDiagram>
