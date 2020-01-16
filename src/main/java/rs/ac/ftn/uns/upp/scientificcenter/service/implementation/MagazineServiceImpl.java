@@ -7,6 +7,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import rs.ac.ftn.uns.upp.scientificcenter.Globals;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
 import rs.ac.ftn.uns.upp.scientificcenter.service.MagazineService;

@@ -15,8 +15,8 @@
             <bpmn:outgoing>SequenceFlow_0z4qmja</bpmn:outgoing>
         </bpmn:exclusiveGateway>
         <bpmn:sequenceFlow id="SequenceFlow_02l31b2" sourceRef="StartEvent_1" targetRef="ExclusiveGateway_17j11cx" />
-        <bpmn:sequenceFlow id="SequenceFlow_0t3onfw" sourceRef="Task_09gbsqe" targetRef="Task_0f66pio" />
-        <bpmn:userTask id="Task_09gbsqe" name="Enter basic magazine information" camunda:assignee="${editor}">
+        <bpmn:sequenceFlow id="SequenceFlow_0t3onfw" sourceRef="basicMagazineInformation" targetRef="Task_0f66pio" />
+        <bpmn:userTask id="basicMagazineInformation" name="Enter basic magazine information" camunda:assignee="${editor}">
             <bpmn:extensionElements>
                 <camunda:formData>
                     <camunda:formField id="issn" label="ISSN: " type="string" />
@@ -42,11 +42,12 @@
             <bpmn:incoming>SequenceFlow_12mkxi3</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_0t3onfw</bpmn:outgoing>
         </bpmn:userTask>
-        <bpmn:userTask id="Task_00nb8aw" name="Enter scientific area:" camunda:assignee="${editor}">
+        <bpmn:userTask id="scientificAreas" name="Enter scientific area:" camunda:assignee="${editor}">
             <bpmn:extensionElements>
                 <camunda:formData>
                     <camunda:formField id="scientificArea" label="Scientific area:" type="string" />
                 </camunda:formData>
+                <camunda:executionListener class="rs.ac.ftn.uns.upp.scientificcenter.listener.FooListener" event="end" />
             </bpmn:extensionElements>
             <bpmn:incoming>SequenceFlow_1ryfqsx</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_1k4471v</bpmn:outgoing>
@@ -75,10 +76,10 @@
             <bpmn:incoming>SequenceFlow_1h3e3dh</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_0vwv8px</bpmn:outgoing>
         </bpmn:serviceTask>
-        <bpmn:sequenceFlow id="SequenceFlow_0vwv8px" sourceRef="Task_1riw43l" targetRef="Task_15qbeyr" />
-        <bpmn:sequenceFlow id="SequenceFlow_1q2vt25" sourceRef="Task_15qbeyr" targetRef="Task_1ritq4h" />
-        <bpmn:sequenceFlow id="SequenceFlow_1jqzol7" sourceRef="Task_1ritq4h" targetRef="Task_1iv61q5" />
-        <bpmn:userTask id="Task_15qbeyr" name="Input magazine editors" camunda:assignee="${editor}">
+        <bpmn:sequenceFlow id="SequenceFlow_0vwv8px" sourceRef="Task_1riw43l" targetRef="editors" />
+        <bpmn:sequenceFlow id="SequenceFlow_1q2vt25" sourceRef="editors" targetRef="reviewers" />
+        <bpmn:sequenceFlow id="SequenceFlow_1jqzol7" sourceRef="reviewers" targetRef="Task_1iv61q5" />
+        <bpmn:userTask id="editors" name="Input magazine editors" camunda:assignee="${editor}">
             <bpmn:extensionElements>
                 <camunda:formData>
                     <camunda:formField id="firstEditorEnum" label="First editor:" type="enum">
@@ -96,7 +97,7 @@
             <bpmn:incoming>SequenceFlow_0vwv8px</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_1q2vt25</bpmn:outgoing>
         </bpmn:userTask>
-        <bpmn:userTask id="Task_1ritq4h" name="Input magazine reviewers" camunda:assignee="${editor}">
+        <bpmn:userTask id="reviewers" name="Input magazine reviewers" camunda:assignee="${editor}">
             <bpmn:extensionElements>
                 <camunda:formData>
                     <camunda:formField id="firstReviewerEnum" label="First reviewer" type="enum">
@@ -138,7 +139,7 @@
             <bpmn:outgoing>SequenceFlow_1amyklh</bpmn:outgoing>
         </bpmn:exclusiveGateway>
         <bpmn:sequenceFlow id="SequenceFlow_0wnf5sq" sourceRef="Task_1iv61q5" targetRef="ExclusiveGateway_0q2rsmx" />
-        <bpmn:sequenceFlow id="SequenceFlow_010wlbn" name="Not ok" sourceRef="ExclusiveGateway_0q2rsmx" targetRef="Task_09gbsqe">
+        <bpmn:sequenceFlow id="SequenceFlow_010wlbn" name="Not ok" sourceRef="ExclusiveGateway_0q2rsmx" targetRef="basicMagazineInformation">
             <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkAll == "no"}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:endEvent id="EndEvent_0dc2mid">
@@ -161,7 +162,7 @@
             <bpmn:incoming>SequenceFlow_0o1hhd2</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_12mkxi3</bpmn:outgoing>
         </bpmn:exclusiveGateway>
-        <bpmn:sequenceFlow id="SequenceFlow_12mkxi3" sourceRef="ExclusiveGateway_17j11cx" targetRef="Task_09gbsqe" />
+        <bpmn:sequenceFlow id="SequenceFlow_12mkxi3" sourceRef="ExclusiveGateway_17j11cx" targetRef="basicMagazineInformation" />
         <bpmn:sequenceFlow id="SequenceFlow_0z4qmja" sourceRef="ExclusiveGateway_1an6dev" targetRef="Task_1ugb0lr" />
         <bpmn:exclusiveGateway id="ExclusiveGateway_0vgll73">
             <bpmn:incoming>SequenceFlow_1djso4l</bpmn:incoming>
@@ -175,8 +176,8 @@
         <bpmn:sequenceFlow id="SequenceFlow_0o1hhd2" sourceRef="ExclusiveGateway_0vgll73" targetRef="ExclusiveGateway_17j11cx">
             <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${success == false}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
-        <bpmn:sequenceFlow id="SequenceFlow_1ryfqsx" sourceRef="ExclusiveGateway_0u4ouju" targetRef="Task_00nb8aw" />
-        <bpmn:sequenceFlow id="SequenceFlow_1k4471v" sourceRef="Task_00nb8aw" targetRef="anotherOne" />
+        <bpmn:sequenceFlow id="SequenceFlow_1ryfqsx" sourceRef="ExclusiveGateway_0u4ouju" targetRef="scientificAreas" />
+        <bpmn:sequenceFlow id="SequenceFlow_1k4471v" sourceRef="scientificAreas" targetRef="anotherOne" />
         <bpmn:sequenceFlow id="SequenceFlow_1p0a4gx" sourceRef="anotherOne" targetRef="ExclusiveGateway_1an6dev" />
     </bpmn:process>
     <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -198,10 +199,10 @@
                 <di:waypoint x="500" y="237" />
                 <di:waypoint x="550" y="237" />
             </bpmndi:BPMNEdge>
-            <bpmndi:BPMNShape id="UserTask_1g87ip8_di" bpmnElement="Task_09gbsqe">
+            <bpmndi:BPMNShape id="UserTask_1g87ip8_di" bpmnElement="basicMagazineInformation">
                 <dc:Bounds x="400" y="197" width="100" height="80" />
             </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape id="UserTask_0ghhkmj_di" bpmnElement="Task_00nb8aw">
+            <bpmndi:BPMNShape id="UserTask_0ghhkmj_di" bpmnElement="scientificAreas">
                 <dc:Bounds x="890" y="197" width="100" height="80" />
             </bpmndi:BPMNShape>
             <bpmndi:BPMNShape id="UserTask_168mcrf_di" bpmnElement="anotherOne">
@@ -238,10 +239,10 @@
                 <di:waypoint x="690" y="390" />
                 <di:waypoint x="620" y="390" />
             </bpmndi:BPMNEdge>
-            <bpmndi:BPMNShape id="UserTask_0d89z4d_di" bpmnElement="Task_15qbeyr">
+            <bpmndi:BPMNShape id="UserTask_0d89z4d_di" bpmnElement="editors">
                 <dc:Bounds x="860" y="350" width="100" height="80" />
             </bpmndi:BPMNShape>
-            <bpmndi:BPMNShape id="UserTask_0i83bxc_di" bpmnElement="Task_1ritq4h">
+            <bpmndi:BPMNShape id="UserTask_0i83bxc_di" bpmnElement="reviewers">
                 <dc:Bounds x="690" y="350" width="100" height="80" />
             </bpmndi:BPMNShape>
             <bpmndi:BPMNShape id="UserTask_1cvhizz_di" bpmnElement="Task_1iv61q5">
