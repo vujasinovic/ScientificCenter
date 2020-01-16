@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scintificcenter.service.implementation;
+package rs.ac.ftn.uns.upp.scientificcenter.service.implementation;
 
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
@@ -7,11 +7,11 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import rs.ac.ftn.uns.upp.scintificcenter.dto.FormFieldDto;
-import rs.ac.ftn.uns.upp.scintificcenter.dto.TaskDto;
-import rs.ac.ftn.uns.upp.scintificcenter.service.MagazineService;
-import rs.ac.ftn.uns.upp.scintificcenter.service.ProcessService;
-import rs.ac.ftn.uns.upp.scintificcenter.service.TaskService;
+import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
+import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
+import rs.ac.ftn.uns.upp.scientificcenter.service.MagazineService;
+import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessService;
+import rs.ac.ftn.uns.upp.scientificcenter.service.TaskService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ import java.util.Map;
 @Service
 public class MagazineServiceImpl implements MagazineService {
     private static final String PROCESS_NAME = "createMagazine";
+    private static final String FORM_DATA = "formData";
 
     private final ProcessService processService;
 
@@ -45,6 +46,8 @@ public class MagazineServiceImpl implements MagazineService {
 
         TaskFormData taskFormData = taskService.formData(taskId);
 
+        runtimeService.setVariable(processInstanceId, "foo", "bar");
+
         return new FormFieldDto(processInstanceId, taskId, taskFormData.getFormFields());
     }
 
@@ -60,7 +63,8 @@ public class MagazineServiceImpl implements MagazineService {
 
         String processInstanceId = task.getProcessInstanceId();
 
-        runtimeService.setVariable(processInstanceId, "registration", formData);
+        runtimeService.setVariable(processInstanceId, FORM_DATA, formData);
+
         formService.submitTaskForm(taskId, formData);
 
         return processInstanceId;

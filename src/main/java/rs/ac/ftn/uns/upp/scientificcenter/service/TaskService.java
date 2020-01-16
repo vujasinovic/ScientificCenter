@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scintificcenter.service;
+package rs.ac.ftn.uns.upp.scientificcenter.service;
 
 import org.camunda.bpm.engine.form.TaskFormData;
 import org.camunda.bpm.engine.task.Task;

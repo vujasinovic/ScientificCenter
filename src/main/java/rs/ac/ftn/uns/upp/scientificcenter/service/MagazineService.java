@@ -1,7 +1,7 @@
-package rs.ac.ftn.uns.upp.scintificcenter.service;
+package rs.ac.ftn.uns.upp.scientificcenter.service;
 
-import rs.ac.ftn.uns.upp.scintificcenter.dto.FormFieldDto;
-import rs.ac.ftn.uns.upp.scintificcenter.dto.TaskDto;
+import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
+import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
 
 import java.util.List;
 import java.util.Map;

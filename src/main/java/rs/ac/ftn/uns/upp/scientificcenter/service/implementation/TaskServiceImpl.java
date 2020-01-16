@@ -1,10 +1,10 @@
-package rs.ac.ftn.uns.upp.scintificcenter.service.implementation;
+package rs.ac.ftn.uns.upp.scientificcenter.service.implementation;
 
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.form.TaskFormData;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.stereotype.Service;
-import rs.ac.ftn.uns.upp.scintificcenter.service.TaskService;
+import rs.ac.ftn.uns.upp.scientificcenter.service.TaskService;
 
 import java.util.List;
 

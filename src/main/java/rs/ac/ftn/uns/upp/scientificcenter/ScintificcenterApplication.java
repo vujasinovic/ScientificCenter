@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scintificcenter;
+package rs.ac.ftn.uns.upp.scientificcenter;
 
 import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
 import org.springframework.boot.SpringApplication;

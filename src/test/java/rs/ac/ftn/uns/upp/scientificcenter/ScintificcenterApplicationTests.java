@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scintificcenter;
+package rs.ac.ftn.uns.upp.scientificcenter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

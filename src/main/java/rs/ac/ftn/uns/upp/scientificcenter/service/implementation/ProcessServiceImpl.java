@@ -1,9 +1,9 @@
-package rs.ac.ftn.uns.upp.scintificcenter.service.implementation;
+package rs.ac.ftn.uns.upp.scientificcenter.service.implementation;
 
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.stereotype.Service;
-import rs.ac.ftn.uns.upp.scintificcenter.service.ProcessService;
+import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessService;
 
 @Service
 public class ProcessServiceImpl implements ProcessService {

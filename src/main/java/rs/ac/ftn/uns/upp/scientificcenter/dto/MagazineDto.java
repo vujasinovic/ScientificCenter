@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scintificcenter.dto;
+package rs.ac.ftn.uns.upp.scientificcenter.dto;
 
 import lombok.Data;
 

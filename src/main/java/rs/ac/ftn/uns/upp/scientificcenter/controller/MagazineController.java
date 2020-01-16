@@ -1,27 +1,16 @@
-package rs.ac.ftn.uns.upp.scintificcenter.controller;
+package rs.ac.ftn.uns.upp.scientificcenter.controller;
 
-import org.camunda.bpm.engine.*;
-import org.camunda.bpm.engine.rest.mapper.MultipartFormData;
-import org.camunda.bpm.engine.task.Task;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
-import rs.ac.ftn.uns.upp.scintificcenter.dto.FormFieldDto;
-import rs.ac.ftn.uns.upp.scintificcenter.dto.TaskDto;
-import rs.ac.ftn.uns.upp.scintificcenter.service.MagazineService;
+import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
+import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
+import rs.ac.ftn.uns.upp.scientificcenter.service.MagazineService;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static rs.ac.ftn.uns.upp.scintificcenter.MapUtils.cast;
+import static rs.ac.ftn.uns.upp.scientificcenter.MapUtils.cast;
 
 @RestController
 @RequestMapping(value = "/api/magazine")
