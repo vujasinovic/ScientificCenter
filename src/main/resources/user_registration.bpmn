@@ -122,7 +122,7 @@
       <bpmn:outgoing>SequenceFlow_0wyco1g</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1qw87ns" sourceRef="Task_0xxuxem" targetRef="Task_1qcvkpt" />
-    <bpmn:serviceTask id="Task_0vdvm3d" name="Registration&#10;" camunda:expression="${false}" camunda:resultVariable="reviewer">
+    <bpmn:serviceTask id="Task_0vdvm3d" name="Registration&#10;" camunda:delegateExpression="${userRegistrationService}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:outputParameter name="Output_083j1sl">Non-reviewer account successfully registered</camunda:outputParameter>
