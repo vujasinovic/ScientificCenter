@@ -133,7 +133,7 @@
       <bpmn:outgoing>SequenceFlow_0hh04v9</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0hh04v9" sourceRef="Task_0vdvm3d" targetRef="EndEvent_159q9fx" />
-    <bpmn:userTask id="Task_119you5" name="Reviewer confirmation" camunda:assignee="demo">
+    <bpmn:userTask id="Task_119you5" name="Reviewer confirmation" camunda:assignee="reviewer">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="confirmReviewer" label="Confirm reviewer" type="enum">

@@ -62,6 +62,7 @@ class CreateMagazine extends Component {
 
     state = {
         isLoading: true,
+        me: String,
         taskFormFields: {
             processInstanceId: String,
             taskId: String,
@@ -78,12 +79,20 @@ class CreateMagazine extends Component {
 
         if (data === "") {
             window.location = "/";
+        } else if (data.assignee !== this.state.me) {
+            window.location = "/";
         } else {
             window.location = '/createMagazine/' + data.id;
         }
     }
 
     async componentDidMount() {
+        const authResponse = await axiosInstance.get('/user/api/auth');
+        const user = authResponse.data;
+
+        console.log(user.username);
+        this.setState({me: user.username});
+
         let url = '/api/magazine';
         let taskId = this.props.match.params.id;
 

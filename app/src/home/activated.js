@@ -12,7 +12,7 @@ class Activated extends React.Component {
     };
 
     async componentDidMount() {
-        let url = '/api/user/activation/' + this.props.match.params.id;
+        let url = '/user/api/activation/' + this.props.match.params.id;
 
         const response = await axiosInstance.get(url);
         console.log(response);

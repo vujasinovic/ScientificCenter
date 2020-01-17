@@ -14,7 +14,6 @@ class UserRegistration extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-
     generate(formFields) {
         let retVal;
 
@@ -63,6 +62,7 @@ class UserRegistration extends Component {
 
     state = {
         isLoading: true,
+        me: String,
         taskFormFields: {
             processInstanceId: String,
             taskId: String,
@@ -75,9 +75,11 @@ class UserRegistration extends Component {
 
         const requestData = new FormData(event.target);
 
-        let {data} = await axios.post('/api/user/' + this.state.taskFormFields.taskId, requestData);
+        let {data} = await axios.post('/user/api/' + this.state.taskFormFields.taskId, requestData);
 
         if (data === "") {
+            window.location = "/";
+        } else if (data.assignee !== this.state.me) {
             window.location = "/";
         } else {
             window.location = '/userRegistration/' + data.id;
@@ -85,9 +87,14 @@ class UserRegistration extends Component {
     }
 
     async componentDidMount() {
-        let url = '/api/user';
-        let taskId = this.props.match.params.id;
+        const authResponse = await axiosInstance.get('/user/api/auth');
+        const user = authResponse.data;
 
+        console.log(user.username);
+        this.setState({me: user.username});
+
+        let url = '/user/api';
+        let taskId = this.props.match.params.id;
 
         if (taskId !== undefined) {
             url = url + "/" + taskId;
@@ -109,8 +116,6 @@ class UserRegistration extends Component {
         } else {
             return (
                 <div className="container-fluid">
-                    <h5>Process instance id: {taskFormFields.processInstanceId}</h5>
-                    <h5>Task id: {taskFormFields.taskId}</h5>
                     {this.generate(taskFormFields.formFields)}
                 </div>
             )

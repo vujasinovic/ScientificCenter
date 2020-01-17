@@ -38,4 +38,9 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> getAllByProcess(String processInstanceId) {
         return taskService.createTaskQuery().processInstanceId(processInstanceId).list();
     }
+
+    @Override
+    public List<Task> getAllByUsername(String username) {
+        return taskService.createTaskQuery().taskAssignee(username).list();
+    }
 }

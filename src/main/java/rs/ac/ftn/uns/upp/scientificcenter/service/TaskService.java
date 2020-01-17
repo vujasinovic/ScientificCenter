@@ -13,4 +13,6 @@ public interface TaskService {
     Task getById(String taskId);
 
     List<Task> getAllByProcess(String processInstanceId);
+
+    List<Task> getAllByUsername(String username);
 }

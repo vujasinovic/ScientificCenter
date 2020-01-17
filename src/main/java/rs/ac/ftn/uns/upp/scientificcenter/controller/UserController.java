@@ -1,11 +1,14 @@
 package rs.ac.ftn.uns.upp.scientificcenter.controller;
 
+import javafx.concurrent.Task;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
+import rs.ac.ftn.uns.upp.scientificcenter.service.MagazineService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,11 +17,13 @@ import java.util.List;
 import static rs.ac.ftn.uns.upp.scientificcenter.utils.MapUtils.cast;
 
 @RestController
-@RequestMapping(value = "/api/user")
+@RequestMapping(value = "/user/api")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+
+    private final MagazineService magazineService;
 
     @GetMapping
     public ResponseEntity getStartProcess() {
@@ -39,6 +44,12 @@ public class UserController {
         FormFieldDto formFields = userService.getFormFields(taskId);
 
         return new ResponseEntity<>(formFields, HttpStatus.OK);
+    }
+
+    @GetMapping("/task/all")
+    public ResponseEntity getAllTasks(Authentication authentication) {
+        List<TaskDto> dtos = userService.getAllTasks(authentication.getName());
+        return new ResponseEntity(dtos, HttpStatus.OK);
     }
 
     @GetMapping("/activation/{processId}")

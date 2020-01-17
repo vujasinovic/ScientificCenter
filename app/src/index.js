@@ -13,6 +13,9 @@ import UserRegistration from "./user_registration/userRegistration";
 import Login from "./login";
 import LoginFailed from "./loginFailed";
 import Activated from "./home/activated";
+import UserTask from "./user_task/userTask";
+import Button from "reactstrap/lib/Button";
+import AuthService from "./authService";
 
 const routing = (
     <Router>
@@ -27,10 +30,16 @@ const routing = (
                         <NavLink href = "/userRegistration">User registration</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href = "/createMagazine">Create magazine</NavLink>
+                        {AuthService.getUserInfo() && <NavLink href = "/createMagazine">Create magazine</NavLink>}
                     </NavItem>
                     <NavItem>
-                        <NavLink href = "/login">Login</NavLink>
+                        {AuthService.getUserInfo() && <NavLink href = "/myTasks">My tasks </NavLink>}
+                    </NavItem>
+                    <NavItem>
+                        {!AuthService.getUserInfo() && <NavLink href = "/login">Login</NavLink>}
+                    </NavItem>
+                    <NavItem>
+                        {AuthService.getUserInfo() && <Button className="btn btn-primary" onClick={AuthService.logOut}>Logout</Button>}
                     </NavItem>
                 </Nav>
             </Navbar>
@@ -43,6 +52,7 @@ const routing = (
                 <Route path="/login" component={Login}/>
                 <Route path="/loginFailed" component={LoginFailed}/>
                 <Route path="/activate/:id" component={Activated}/>
+                <Route payh="/myTasks" component={UserTask}/>
                 <Route component={Notfound}/>
             </Switch>
         </div>

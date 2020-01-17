@@ -16,6 +16,8 @@ public interface MagazineService {
 
     List<TaskDto> findNextTasks(String processId);
 
+    List<TaskDto> getAllTasks(String name);
+
     Magazine save(Magazine magazine);
 
     Magazine getOne(Long id);

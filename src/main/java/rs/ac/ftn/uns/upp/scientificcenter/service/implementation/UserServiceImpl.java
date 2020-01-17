@@ -3,6 +3,7 @@ package rs.ac.ftn.uns.upp.scientificcenter.service.implementation;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.form.TaskFormData;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -89,7 +90,17 @@ public class UserServiceImpl implements UserService {
         for (Task task : tasks) {
             dtos.add(new TaskDto(task.getId(), task.getName(), task.getAssignee()));
         }
+        return dtos;
+    }
 
+    @Override
+    public List<TaskDto> getAllTasks(String name) {
+        List<Task> tasks = taskService.getAllByUsername(name);
+        List<TaskDto> dtos = new ArrayList<>();
+
+        for (Task task: tasks) {
+            dtos.add(new TaskDto(task.getId(), task.getName(), task.getAssignee()));
+        }
         return dtos;
     }
 

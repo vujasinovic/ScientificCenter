@@ -110,6 +110,17 @@ public class MagazineServiceImpl implements MagazineService {
     }
 
     @Override
+    public List<TaskDto> getAllTasks(String name) {
+        List<Task> tasks = taskService.getAllByUsername(name);
+        List<TaskDto> dtos = new ArrayList<>();
+
+        for (Task task: tasks) {
+            dtos.add(new TaskDto(task.getId(), task.getName(), task.getAssignee()));
+        }
+        return dtos;
+    }
+
+    @Override
     public Magazine save(Magazine magazine) {
         return magazineRepository.save(magazine);
     }

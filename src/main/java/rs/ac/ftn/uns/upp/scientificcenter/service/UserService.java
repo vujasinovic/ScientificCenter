@@ -23,4 +23,6 @@ public interface UserService {
     List<User> findAll();
 
     void activateUser(String processId);
+
+    List<TaskDto> getAllTasks(String name);
 }
