@@ -22,4 +22,6 @@ public class PersistMagazineDto {
     private List<String> editors;
 
     private List<String> reviewers;
+
+    private String mainEditor;
 }

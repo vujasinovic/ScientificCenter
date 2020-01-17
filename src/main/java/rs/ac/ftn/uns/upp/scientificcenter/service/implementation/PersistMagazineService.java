@@ -36,6 +36,11 @@ public class PersistMagazineService implements JavaDelegate {
         magazine.setNumber(persistMagazineDto.getNumber());
         magazine.setPaymentMethod(persistMagazineDto.getPaymentMethod());
 
+        User mainEditor = new User();
+        mainEditor.setUsername(persistMagazineDto.getMainEditor());
+
+        magazine.setEditor(userService.save(mainEditor));
+
         List<ScientificArea> scientificAreas = new ArrayList<>();
         List<User> editors = new ArrayList<>();
         List<User> reviewers = new ArrayList<>();

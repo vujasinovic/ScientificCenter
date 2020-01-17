@@ -31,4 +31,7 @@ public class Magazine {
 
     @ManyToMany
     private List<User> reviewers;
+
+    @ManyToOne
+    private User editor;
 }
