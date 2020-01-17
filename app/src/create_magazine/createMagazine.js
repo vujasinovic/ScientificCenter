@@ -1,12 +1,12 @@
 import {Component, default as React} from "react";
 import axios from "axios";
-import {generate} from "../formGenerator";
 import Form from "reactstrap/lib/Form";
 import FormGroup from "reactstrap/lib/FormGroup";
 import Label from "reactstrap/lib/Label";
 import Button from "reactstrap/lib/Button";
 import {inputType} from "../const/inputType";
 import Input from "reactstrap/lib/Input";
+import axiosInstance from "../axiosInstance";
 
 class CreateMagazine extends Component {
     constructor() {
@@ -75,7 +75,7 @@ class CreateMagazine extends Component {
 
         const requestData = new FormData(event.target);
 
-        let {data} = await axios.post('/api/magazine/' + this.state.taskFormFields.taskId, requestData);
+        let {data} = await axiosInstance.post('/api/magazine/' + this.state.taskFormFields.taskId, requestData);
 
         if (data === "") {
             window.location = "/";
@@ -93,7 +93,7 @@ class CreateMagazine extends Component {
             console.log(url);
         }
 
-        const response = await axios.get(url);
+        const response = await axiosInstance.get(url);
 
         const body = response.data;
 

@@ -1,7 +1,28 @@
 import * as React from "react";
 import {Link} from "react-router-dom";
+import axios from "axios";
+import axiosInstance from "../axiosInstance";
 
 class Home extends React.Component {
+    state = {
+        isLoading: true,
+        taskFormFields: {
+            processInstanceId: String,
+            taskId: String,
+            formFields: []
+        }
+    };
+
+    async componentDidMount() {
+        let url = '/user/api/auth';
+
+        const response = await axiosInstance.get(url, {withCredentials: true});
+
+        const body = response.data;
+
+        this.setState({isLoading: false, taskFormFields: body});
+    }
+
     render() {
         return (
             <div className="mt-3 container-fluid">

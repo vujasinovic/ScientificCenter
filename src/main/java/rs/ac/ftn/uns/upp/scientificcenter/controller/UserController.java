@@ -40,4 +40,11 @@ public class UserController {
 
         return new ResponseEntity<>(formFields, HttpStatus.OK);
     }
+
+    @GetMapping("/activation/{processId}")
+    public ResponseEntity getActivation(@PathVariable String processId) {
+        userService.activateUser(processId);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

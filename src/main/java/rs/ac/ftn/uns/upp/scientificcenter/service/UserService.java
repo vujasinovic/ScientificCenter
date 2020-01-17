@@ -21,4 +21,6 @@ public interface UserService {
     User getOne(Long id);
 
     List<User> findAll();
+
+    void activateUser(String processId);
 }

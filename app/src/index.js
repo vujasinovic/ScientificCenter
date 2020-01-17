@@ -10,6 +10,9 @@ import Notfound from "./notFound";
 import Home from "./home/home";
 import CreateMagazine from "./create_magazine/createMagazine";
 import UserRegistration from "./user_registration/userRegistration";
+import Login from "./login";
+import LoginFailed from "./loginFailed";
+import Activated from "./home/activated";
 
 const routing = (
     <Router>
@@ -26,6 +29,9 @@ const routing = (
                     <NavItem>
                         <NavLink href = "/createMagazine">Create magazine</NavLink>
                     </NavItem>
+                    <NavItem>
+                        <NavLink href = "/login">Login</NavLink>
+                    </NavItem>
                 </Nav>
             </Navbar>
             <Switch>
@@ -34,6 +40,9 @@ const routing = (
                 <Route path="/createMagazine" component={CreateMagazine}/>
                 <Route path="/userRegistration/:id" component={UserRegistration}/>
                 <Route path="/userRegistration" component={UserRegistration}/>
+                <Route path="/login" component={Login}/>
+                <Route path="/loginFailed" component={LoginFailed}/>
+                <Route path="/activate/:id" component={Activated}/>
                 <Route component={Notfound}/>
             </Switch>
         </div>

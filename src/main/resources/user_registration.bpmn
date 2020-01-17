@@ -158,7 +158,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_15oo6y5" name="not reviewer" sourceRef="ExclusiveGateway_1bh3u2o" targetRef="Task_0vdvm3d">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${reviewer == "no"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="sendMail" name="Send verification email" camunda:expression="${false}" camunda:resultVariable="activated">
+    <bpmn:serviceTask id="sendMail" name="Send verification email" camunda:delegateExpression="${mailSenderService}">
       <bpmn:incoming>SequenceFlow_0p2peb1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1asju7k</bpmn:outgoing>
     </bpmn:serviceTask>

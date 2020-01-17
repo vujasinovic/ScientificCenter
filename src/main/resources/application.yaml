@@ -18,3 +18,15 @@ spring:
   h2:
     console:
       enabled: true
+
+  mail:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+    host: smtp.gmail.com
+    username: naucna.centrala28@gmail.com
+    password: centrala28
+    port: 587
+
