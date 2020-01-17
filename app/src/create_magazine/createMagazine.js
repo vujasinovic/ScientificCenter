@@ -1,5 +1,4 @@
 import {Component, default as React} from "react";
-import axios from "axios";
 import Form from "reactstrap/lib/Form";
 import FormGroup from "reactstrap/lib/FormGroup";
 import Label from "reactstrap/lib/Label";

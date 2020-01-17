@@ -1,61 +1,68 @@
-import {Component, default as React} from "react";
-import axios from "axios";
-import FormGroup from "reactstrap/lib/FormGroup";
-import Label from "reactstrap/lib/Label";
-import Input from "reactstrap/lib/Input";
-import {Form} from "reactstrap";
-import Button from "reactstrap/lib/Button";
-import axiosInstance from "./axiosInstance";
+import React, {useState} from 'react';
+import AuthService from "./authService";
 
-class Login extends Component {
-    constructor() {
-        super();
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+const Login = () => {
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const [error, setError] = useState();
 
-    state = {
-        isLoading: true,
+
+    const performLogin = () => {
+        setError(undefined);
+
+        AuthService.login({username, password})
+            .then(response => {
+                localStorage.setItem("userInfo", JSON.stringify(response.data));
+                window.location.href = '/';
+            }).catch(e => {
+            setError("Bad credentials");
+        })
+
     };
 
-    async handleSubmit(event) {
-        event.preventDefault();
-
-        const requestData = new FormData(event.target);
-
-        let {data} = await axiosInstance.post('/user/api/auth', requestData);
-
-        if (data.authenticated === true) {
-            window.location = "/";
-        } else {
-            window.location = "/loginFailed"
-        }
-
-        console.log(data);
-
-    }
-
-    render() {
-        const {isLoading} = this.state;
-
-        return (
-            <div className="container-fluid">
-                <div className="col-md-4">
-                    <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for="username">Username</Label>
-                            <Input type="text" id="username" name="username"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Label for="password">Password</Label>
-                            <Input type="text" id="password" name="password"/>
-                        </FormGroup>
-                        <Button color="primary">Submit</Button>
-                    </Form>
+    return (
+        <div className="container-fluid">
+            <div className="container">
+                <div className="nine wide column">
+                    {error &&
+                    <div className="ui icon warning message">
+                        <i className="lock icon"></i>
+                        <div className="content">
+                            <div className="header">
+                                Login failed!
+                            </div>
+                            <p>{error}</p>
+                        </div>
+                    </div>
+                    }
+                    <div className="ui fluid card">
+                        <div className="content">
+                            <form className="form" method="POST" onSubmit={e => {
+                                e.preventDefault();
+                                performLogin()
+                            }}>
+                                <div className="form-group">
+                                    <label>User</label>
+                                    <input className="form-control" onChange={e => setUsername(e.target.value)} type="text" name="user"
+                                           placeholder="User"/>
+                                </div>
+                                <div className="form-group">
+                                    <label>Password</label>
+                                    <input className="form-control" onChange={e => setPassword(e.target.value)} type="password" name="password"
+                                           placeholder="Password"/>
+                                </div>
+                                <button onClick={() => performLogin()} className="btn btn-primary"
+                                        type="submit">
+                                    <i className="unlock alternate icon"></i>
+                                    Login
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-        )
-    }
-
+        </div>
+    );
 }
 
-export default Login
+export default Login;

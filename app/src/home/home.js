@@ -1,6 +1,5 @@
 import * as React from "react";
 import {Link} from "react-router-dom";
-import axios from "axios";
 import axiosInstance from "../axiosInstance";
 
 class Home extends React.Component {
@@ -16,11 +15,11 @@ class Home extends React.Component {
     async componentDidMount() {
         let url = '/user/api/auth';
 
-        const response = await axiosInstance.get(url, {withCredentials: true});
+        const response = await axiosInstance.get(url);
 
         const body = response.data;
 
-        this.setState({isLoading: false, taskFormFields: body});
+        console.log(body);
     }
 
     render() {

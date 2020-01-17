@@ -20,7 +20,7 @@ public class CamundaUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(username)
                 .password(user.getPassword())
-                .authorities("user")
+                .roles("user")
                 .build();
     }
 

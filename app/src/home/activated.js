@@ -1,6 +1,4 @@
 import * as React from "react";
-import {Link} from "react-router-dom";
-import axios from "axios";
 import axiosInstance from "../axiosInstance";
 
 class Activated extends React.Component {
@@ -17,7 +15,7 @@ class Activated extends React.Component {
         let url = '/api/user/activation/' + this.props.match.params.id;
 
         const response = await axiosInstance.get(url);
-
+        console.log(response);
         window.location = "/";
     }
 
