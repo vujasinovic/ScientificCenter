@@ -4,6 +4,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Service;
 import rs.ac.ftn.uns.upp.scientificcenter.exception.FieldNullException;
+import rs.ac.ftn.uns.upp.scientificcenter.utils.ValidationHelper;
 
 import java.util.Map;
 
@@ -17,8 +18,12 @@ public class DataValidationService implements JavaDelegate {
         Map<String, Object> formData = (Map<String, Object>) execution.getVariable(FORM_DATA);
 
         for (Map.Entry<String, Object> entry : formData.entrySet()) {
-            if (entry.getValue() == null || entry.getValue().equals("")) {
-                execution.setVariable("success", false);
+            final Object value = entry.getValue();
+            if (value == null || value.equals("")) {
+                if (entry.getKey().equalsIgnoreCase("email")) {
+                    execution.setVariable(VALIDATION_SUCCESS, ValidationHelper.validateEmail((String) value));
+                }
+                execution.setVariable(VALIDATION_SUCCESS, false);
                 throw new FieldNullException(String.format("Field %s cannot be null.", entry.getKey()));
             }
             execution.setVariable(VALIDATION_SUCCESS, true);

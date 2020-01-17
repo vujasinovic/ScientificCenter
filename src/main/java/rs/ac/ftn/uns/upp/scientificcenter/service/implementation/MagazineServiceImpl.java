@@ -9,14 +9,12 @@ import org.camunda.bpm.engine.task.Task;
 import org.springframework.stereotype.Service;
 import rs.ac.ftn.uns.upp.scientificcenter.bom.Magazine;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
-import rs.ac.ftn.uns.upp.scientificcenter.dto.MagazineDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
 import rs.ac.ftn.uns.upp.scientificcenter.repository.MagazineRepository;
 import rs.ac.ftn.uns.upp.scientificcenter.service.MagazineService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.TaskService;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +99,6 @@ public class MagazineServiceImpl implements MagazineService {
 
     @Override
     public List<TaskDto> findNextTasks(String processId) {
-
         List<Task> tasks = taskService.getAllByProcess(processId);
         List<TaskDto> dtos = new ArrayList<>();
 

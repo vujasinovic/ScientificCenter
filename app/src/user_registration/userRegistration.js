@@ -8,7 +8,7 @@ import Button from "reactstrap/lib/Button";
 import {inputType} from "../const/inputType";
 import Input from "reactstrap/lib/Input";
 
-class CreateMagazine extends Component {
+class UserRegistration extends Component {
     constructor() {
         super();
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -75,18 +75,19 @@ class CreateMagazine extends Component {
 
         const requestData = new FormData(event.target);
 
-        let {data} = await axios.post('/api/magazine/' + this.state.taskFormFields.taskId, requestData);
+        let {data} = await axios.post('/api/user/' + this.state.taskFormFields.taskId, requestData);
 
         if (data === "") {
             window.location = "/";
         } else {
-            window.location = '/createMagazine/' + data.id;
+            window.location = '/userRegistration/' + data.id;
         }
     }
 
     async componentDidMount() {
-        let url = '/api/magazine';
+        let url = '/api/user';
         let taskId = this.props.match.params.id;
+
 
         if (taskId !== undefined) {
             url = url + "/" + taskId;
@@ -118,4 +119,4 @@ class CreateMagazine extends Component {
 
 }
 
-export default CreateMagazine
+export default UserRegistration

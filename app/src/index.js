@@ -9,6 +9,7 @@ import {Nav, Navbar, NavbarBrand, NavItem, NavLink} from "reactstrap";
 import Notfound from "./notFound";
 import Home from "./home/home";
 import CreateMagazine from "./create_magazine/createMagazine";
+import UserRegistration from "./user_registration/userRegistration";
 
 const routing = (
     <Router>
@@ -31,6 +32,8 @@ const routing = (
                 <Route exact path="/" component={Home}/>
                 <Route path="/createMagazine/:id" component={CreateMagazine}/>
                 <Route path="/createMagazine" component={CreateMagazine}/>
+                <Route path="/userRegistration/:id" component={UserRegistration}/>
+                <Route path="/userRegistration" component={UserRegistration}/>
                 <Route component={Notfound}/>
             </Switch>
         </div>
