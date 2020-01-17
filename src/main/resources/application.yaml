@@ -1,8 +1,9 @@
 camunda.bpm:
   admin-user:
-    id: aleksandar
-    password: password
-    firstName: Aleksandar
+    id: admin
+    password: admin
+    firstName: Admin
+    email: admin@admin.com
   filter:
     create: All tasks
 

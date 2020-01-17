@@ -25,6 +25,7 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
     private static final String PROCESS_NAME = "User_Registration";
     private static final String FORM_DATA = "formData";
+    private static final String SCIENTIFIC_AREAS = "scientificAreas";
 
     private final UserRepository userRepository;
 
@@ -44,6 +45,8 @@ public class UserServiceImpl implements UserService {
         Task task = taskService.getByProcess(processInstanceId);
         String taskId = task.getId();
 
+        runtimeService.setVariable(processInstanceId, SCIENTIFIC_AREAS, new ArrayList<>());
+
         TaskFormData taskFormData = taskService.formData(taskId);
 
         return new FormFieldDto(processInstanceId, taskId, taskFormData.getFormFields());
@@ -61,6 +64,16 @@ public class UserServiceImpl implements UserService {
 
         String processInstanceId = task.getProcessInstanceId();
 
+        List<String> scientificAreas = (List<String>) runtimeService.getVariable(processInstanceId, SCIENTIFIC_AREAS);
+
+        for (Map.Entry<String, Object> entry : formData.entrySet()) {
+            String key = entry.getKey();
+            if (key.equalsIgnoreCase("scientificArea")) {
+                scientificAreas.add((String) entry.getValue());
+            }
+        }
+
+        runtimeService.setVariable(processInstanceId, SCIENTIFIC_AREAS, scientificAreas);
         runtimeService.setVariable(processInstanceId, FORM_DATA, formData);
 
         formService.submitTaskForm(taskId, formData);
