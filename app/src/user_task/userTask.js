@@ -20,7 +20,7 @@ class UserTask extends React.Component {
     }
 
     render() {
-        const {tasks, isLoading} = this.state;
+        const {tasks} = this.state;
 
         return (
             <div className="mt-3 container-fluid">
