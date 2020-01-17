@@ -24,6 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors();
 
         http.authorizeRequests().anyRequest().permitAll();
+        http.headers().frameOptions().disable();
         http.addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
     }
 
