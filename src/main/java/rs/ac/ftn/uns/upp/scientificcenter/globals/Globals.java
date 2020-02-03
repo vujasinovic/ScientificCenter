@@ -1,6 +1,6 @@
 package rs.ac.ftn.uns.upp.scientificcenter.globals;
 
-public abstract class Globals {
+public final class Globals {
     public static class Magazine {
         public static final String BASIC_MAGAZINE_INFO = "basicMagazineInformation";
 

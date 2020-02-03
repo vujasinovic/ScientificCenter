@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scientificcenter.service.implementation;
+package rs.ac.ftn.uns.upp.scientificcenter.service.task;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -9,29 +9,15 @@ import rs.ac.ftn.uns.upp.scientificcenter.service.UserEntityService;
 import rs.ac.ftn.uns.upp.scientificcenter.utils.VariableHelper;
 
 public class UserRegistrationService implements JavaDelegate {
-
     private static final String TRUE = "confirm";
 
     @Autowired
     private UserEntityService userEntityService;
 
     @Override
-    public void execute(DelegateExecution execution) throws Exception {
+    public void execute(DelegateExecution execution) {
         UserEntityDto userEntityDto = VariableHelper.writeVariablesToObject(execution.getVariables(), UserEntityDto.class);
-
-        UserEntity userEntity = new UserEntity();
-        userEntity.setName(userEntityDto.getName());
-        userEntity.setSurname(userEntityDto.getSurname());
-        userEntity.setAcademicTitle(userEntityDto.getAcademicTitle());
-        userEntity.setCity(userEntityDto.getCity());
-        userEntity.setPassword(userEntityDto.getPassword());
-        userEntity.setUsername(userEntityDto.getUsername());
-        userEntity.setState(userEntityDto.getState());
-
-        boolean reviewer = userEntityDto.getConfirmReviewer() != null;
-
-        assert userEntityDto.getConfirmReviewer() != null;
-
+        UserEntity userEntity = VariableHelper.map(userEntityDto, UserEntity.class);
         userEntity.setReviewer(userEntityDto.getConfirmReviewer().equalsIgnoreCase(TRUE));
 
         userEntityService.save(userEntity);

@@ -67,7 +67,7 @@
         <bpmn:sequenceFlow id="SequenceFlow_0zi3eyk" name="One more" sourceRef="ExclusiveGateway_1an6dev" targetRef="ExclusiveGateway_0u4ouju">
             <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${anotherOne == "yes"}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
-        <bpmn:serviceTask id="Task_1riw43l" name="Setup main magazine editor" camunda:class="rs.ac.ftn.uns.upp.scientificcenter.service.implementation.MainEditorService">
+        <bpmn:serviceTask id="Task_1riw43l" name="Setup main magazine editor" camunda:class="rs.ac.ftn.uns.upp.scientificcenter.service.task.MainEditorService">
             <bpmn:incoming>SequenceFlow_0z4qmja</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_0vwv8px</bpmn:outgoing>
         </bpmn:serviceTask>
@@ -147,7 +147,7 @@
             <bpmn:incoming>SequenceFlow_1amyklh</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_06skrf1</bpmn:outgoing>
         </bpmn:serviceTask>
-        <bpmn:serviceTask id="Task_0f66pio" name="Data validation" camunda:class="rs.ac.ftn.uns.upp.scientificcenter.service.implementation.DataValidationService">
+        <bpmn:serviceTask id="Task_0f66pio" name="Data validation" camunda:class="rs.ac.ftn.uns.upp.scientificcenter.service.task.DataValidationService">
             <bpmn:incoming>SequenceFlow_0t3onfw</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_1djso4l</bpmn:outgoing>
         </bpmn:serviceTask>

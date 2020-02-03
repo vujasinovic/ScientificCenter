@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scientificcenter.service;
+package rs.ac.ftn.uns.upp.scientificcenter.service.authentication;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

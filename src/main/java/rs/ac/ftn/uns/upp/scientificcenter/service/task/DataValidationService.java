@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scientificcenter.service.implementation;
+package rs.ac.ftn.uns.upp.scientificcenter.service.task;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;

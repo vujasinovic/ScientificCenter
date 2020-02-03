@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.LoginRequest;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TokenResponse;
-import rs.ac.ftn.uns.upp.scientificcenter.service.AuthenticationService;
+import rs.ac.ftn.uns.upp.scientificcenter.service.authentication.AuthenticationService;
 
 import java.util.List;
 import java.util.Map;
