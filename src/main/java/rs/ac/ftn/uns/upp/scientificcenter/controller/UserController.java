@@ -1,11 +1,10 @@
 package rs.ac.ftn.uns.upp.scientificcenter.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import rs.ac.ftn.uns.upp.scientificcenter.annotation.ProcessInstance;
+import rs.ac.ftn.uns.upp.scientificcenter.annotation.ProcessHandler;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
 import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessInstanceService;
@@ -19,13 +18,15 @@ import static rs.ac.ftn.uns.upp.scientificcenter.utils.MapUtils.cast;
 
 @RestController
 @RequestMapping(value = "/user/api")
-@RequiredArgsConstructor
 public class UserController {
-
-    @ProcessInstance(USER_REGISTRATION_SERVICE)
-    private ProcessInstanceService userRegistrationService;
+    private final ProcessInstanceService userRegistrationService;
 
     private final UserService userService;
+
+    public UserController(@ProcessHandler(USER_REGISTRATION_SERVICE) ProcessInstanceService userRegistrationService, UserService userService) {
+        this.userRegistrationService = userRegistrationService;
+        this.userService = userService;
+    }
 
     @GetMapping
     public ResponseEntity getStartProcess() {

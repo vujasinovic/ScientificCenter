@@ -1,20 +1,19 @@
 package rs.ac.ftn.uns.upp.scientificcenter.utils;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MapUtils {
-
     private static final String DATE = "date";
     private static final String SQL_DATE_SPLIT = "-";
     private static final String CAMUNDA_DATE_SPLIT = "/";
     private static final String ANOTHER_ONE = "anotherOne";
     private static final String ENUM = "Enum";
     private static final String WHITESPACE = " ";
-
-    private MapUtils() {
-
-    }
 
     public static Map<String, Object> cast(Map<String, String[]> params) {
         Map<String, Object> res = new HashMap<>();

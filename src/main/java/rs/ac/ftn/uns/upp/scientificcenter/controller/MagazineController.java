@@ -1,10 +1,9 @@
 package rs.ac.ftn.uns.upp.scientificcenter.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import rs.ac.ftn.uns.upp.scientificcenter.annotation.ProcessInstance;
+import rs.ac.ftn.uns.upp.scientificcenter.annotation.ProcessHandler;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
 import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessInstanceService;
@@ -17,11 +16,12 @@ import static rs.ac.ftn.uns.upp.scientificcenter.utils.MapUtils.cast;
 
 @RestController
 @RequestMapping(value = "/api/magazine")
-@RequiredArgsConstructor
 public class MagazineController {
+    private final ProcessInstanceService createMagazineService;
 
-    @ProcessInstance(CREATE_MAGAZINE_SERVICE)
-    private ProcessInstanceService createMagazineService;
+    public MagazineController(@ProcessHandler(CREATE_MAGAZINE_SERVICE) ProcessInstanceService processInstanceService) {
+        this.createMagazineService = processInstanceService;
+    }
 
     @GetMapping
     public ResponseEntity getStartProcess() {

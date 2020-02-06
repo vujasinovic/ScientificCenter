@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scientificcenter.service.implementation;
+package rs.ac.ftn.uns.upp.scientificcenter.service.implementation.process;
 
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.FormService;
@@ -16,13 +16,14 @@ import rs.ac.ftn.uns.upp.scientificcenter.service.TaskService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import static rs.ac.ftn.uns.upp.scientificcenter.globals.Globals.ProcessName;
 import static rs.ac.ftn.uns.upp.scientificcenter.globals.ProcessInstanceServiceBeanName.USER_REGISTRATION_SERVICE;
 
 @Service(USER_REGISTRATION_SERVICE)
 @RequiredArgsConstructor
 public class UserRegistrationServiceImpl implements ProcessInstanceService {
-    private static final String PROCESS_NAME = "User_Registration";
     private static final String FORM_DATA = "formData";
     private static final String SCIENTIFIC_AREAS = "scientificAreas";
 
@@ -36,7 +37,7 @@ public class UserRegistrationServiceImpl implements ProcessInstanceService {
 
     @Override
     public FormFieldDto startProcess() {
-        ProcessInstance processInstance = processService.start(PROCESS_NAME);
+        ProcessInstance processInstance = processService.start(ProcessName.USER_REGISTRATION);
         String processInstanceId = processInstance.getId();
 
         Task task = taskService.getByProcess(processInstanceId);
@@ -81,22 +82,14 @@ public class UserRegistrationServiceImpl implements ProcessInstanceService {
     @Override
     public List<TaskDto> findNextTasks(String processId) {
         List<Task> tasks = taskService.getAllByProcess(processId);
-        List<TaskDto> dtos = new ArrayList<>();
 
-        for (Task task : tasks) {
-            dtos.add(new TaskDto(task.getId(), task.getName(), task.getAssignee()));
-        }
-        return dtos;
+        return tasks.stream().map(t -> new TaskDto(t.getId(), t.getName(), t.getAssignee())).collect(Collectors.toList());
     }
 
     @Override
     public List<TaskDto> getAllTasks(String name) {
         List<Task> tasks = taskService.getAllByUsername(name);
-        List<TaskDto> dtos = new ArrayList<>();
 
-        for (Task task : tasks) {
-            dtos.add(new TaskDto(task.getId(), task.getName(), task.getAssignee()));
-        }
-        return dtos;
+        return tasks.stream().map(t -> new TaskDto(t.getId(), t.getName(), t.getAssignee())).collect(Collectors.toList());
     }
 }
