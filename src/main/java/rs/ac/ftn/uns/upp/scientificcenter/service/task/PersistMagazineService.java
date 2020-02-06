@@ -10,7 +10,7 @@ import rs.ac.ftn.uns.upp.scientificcenter.dto.PersistMagazineDto;
 import rs.ac.ftn.uns.upp.scientificcenter.service.MagazineService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.ScientificAreaService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.UserService;
-import rs.ac.ftn.uns.upp.scientificcenter.utils.Mapper;
+import rs.ac.ftn.uns.upp.scientificcenter.utils.MapperUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ public class PersistMagazineService implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) {
-        PersistMagazineDto persistMagazineDto = Mapper.writeVariablesToObject(execution.getVariables(), PersistMagazineDto.class);
+        PersistMagazineDto persistMagazineDto = MapperUtils.writeVariablesToObject(execution.getVariables(), PersistMagazineDto.class);
 
         Magazine magazine = new Magazine();
         magazine.setTitle(persistMagazineDto.getTitle());

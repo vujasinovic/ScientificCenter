@@ -4,7 +4,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Service;
 import rs.ac.ftn.uns.upp.scientificcenter.exception.FieldNullException;
-import rs.ac.ftn.uns.upp.scientificcenter.utils.ValidationHelper;
+import rs.ac.ftn.uns.upp.scientificcenter.helper.ValidationHelper;
 
 import java.util.Map;
 

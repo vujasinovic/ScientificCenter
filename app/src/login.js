@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
 import AuthService from "./authService";
+import Form from "reactstrap/es/Form";
+import FormGroup from "reactstrap/es/FormGroup";
+import Container from "reactstrap/es/Container";
+import Row from "reactstrap/es/Row";
+import Col from "reactstrap/es/Col";
+import FormText from "reactstrap/es/FormText";
 
 const Login = () => {
     const [username, setUsername] = useState();
@@ -21,48 +27,39 @@ const Login = () => {
     };
 
     return (
-        <div className="container-fluid">
-            <div className="container">
-                <div className="nine wide column">
-                    {error &&
-                    <div className="ui icon warning message">
-                        <i className="lock icon"></i>
-                        <div className="content">
-                            <div className="header">
-                                Login failed!
-                            </div>
-                            <p>{error}</p>
-                        </div>
-                    </div>
-                    }
-                    <div className="ui fluid card">
-                        <div className="content">
-                            <form className="form" method="POST" onSubmit={e => {
-                                e.preventDefault();
-                                performLogin()
-                            }}>
-                                <div className="form-group">
-                                    <label>User</label>
-                                    <input className="form-control" onChange={e => setUsername(e.target.value)} type="text" name="user"
-                                           placeholder="User"/>
-                                </div>
-                                <div className="form-group">
-                                    <label>Password</label>
-                                    <input className="form-control" onChange={e => setPassword(e.target.value)} type="password" name="password"
-                                           placeholder="Password"/>
-                                </div>
-                                <button onClick={() => performLogin()} className="btn btn-primary"
-                                        type="submit">
-                                    <i className="unlock alternate icon"></i>
-                                    Login
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <Row>
+            <Col xs="6" sm="4"></Col>
+            <Col xs="6" sm="4">
+                <Container className="border p-3 mt-4">
+                    <h5 className="text-center">Please, log in</h5>
+                    <Form method="POST" onSubmit={e => {
+                        e.preventDefault();
+                        performLogin()
+                    }}>
+                        <FormGroup>
+                            <label>User</label>
+                            <input className="form-control" onChange={e => setUsername(e.target.value)} type="text"
+                                   name="user"
+                                   placeholder="User"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <label>Password</label>
+                            <input className="form-control" onChange={e => setPassword(e.target.value)} type="password"
+                                   name="password"
+                                   placeholder="Password"/>
+                        </FormGroup>
+                        <FormGroup>
+                            <button onClick={() => performLogin()} className="btn btn-primary"
+                                    type="submit">
+                                Login
+                            </button>
+                        </FormGroup>
+                    </Form>
+                </Container>
+            </Col>
+            <Col xs="6" sm="4"></Col>
+        </Row>
     );
-}
+};
 
 export default Login;

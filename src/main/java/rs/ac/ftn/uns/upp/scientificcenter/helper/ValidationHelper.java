@@ -1,4 +1,4 @@
-package rs.ac.ftn.uns.upp.scientificcenter.utils;
+package rs.ac.ftn.uns.upp.scientificcenter.helper;
 
 import java.util.regex.Pattern;
 

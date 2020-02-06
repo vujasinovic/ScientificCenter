@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.ftn.uns.upp.scientificcenter.annotation.ProcessHandler;
-import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
+import rs.ac.ftn.uns.upp.scientificcenter.dto.FormDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
 import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessInstanceService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.UserService;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 import static rs.ac.ftn.uns.upp.scientificcenter.globals.ProcessInstanceServiceBeanName.USER_REGISTRATION_SERVICE;
-import static rs.ac.ftn.uns.upp.scientificcenter.utils.MapUtils.cast;
+import static rs.ac.ftn.uns.upp.scientificcenter.utils.MapperUtils.cast;
 
 @RestController
 @RequestMapping(value = "/user/api")
@@ -44,7 +44,7 @@ public class UserController {
 
     @GetMapping("/{taskId}")
     public ResponseEntity getTaskForm(@PathVariable String taskId) {
-        FormFieldDto formFields = userRegistrationService.getFormFields(taskId);
+        FormDto formFields = userRegistrationService.getFormFields(taskId);
 
         return new ResponseEntity<>(formFields, HttpStatus.OK);
     }

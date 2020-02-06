@@ -8,14 +8,13 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import {Nav, Navbar, NavbarBrand, NavItem, NavLink} from "reactstrap";
 import Notfound from "./notFound";
 import Home from "./home/home";
-import CreateMagazine from "./create_magazine/createMagazine";
-import UserRegistration from "./user_registration/userRegistration";
 import Login from "./login";
 import LoginFailed from "./loginFailed";
 import Activated from "./home/activated";
 import UserTask from "./user_task/userTask";
 import Button from "reactstrap/lib/Button";
 import AuthService from "./authService";
+import TextReview from "./text_review/textReview";
 
 const routing = (
     <Router>
@@ -24,31 +23,34 @@ const routing = (
                 <NavbarBrand href="/">Scientific Center</NavbarBrand>
                 <Nav className="mr-auto" navbar>
                     <NavItem>
-                        <NavLink href="/">Home</NavLink>
+                        {AuthService.getUserInfo() && <NavLink href="/">Home</NavLink>}
                     </NavItem>
                     <NavItem>
-                        <NavLink href = "/userRegistration">User registration</NavLink>
+                        {AuthService.getUserInfo() && <NavLink href="/textReview">Text review </NavLink>}
                     </NavItem>
                     <NavItem>
-                        {AuthService.getUserInfo() && <NavLink href = "/createMagazine">Create magazine</NavLink>}
+                        {AuthService.getUserInfo() && <NavLink href="/myTasks">My tasks </NavLink>}
+                    </NavItem>
+                </Nav>
+                <Nav className="ml-auto">
+                    <NavItem>
+                        {!AuthService.getUserInfo() &&
+                        <NavLink href="/login">
+                            <Button className="btn btn-sm btn-primary" onClick={AuthService.login}>Login</Button>
+                        </NavLink>}
                     </NavItem>
                     <NavItem>
-                        {AuthService.getUserInfo() && <NavLink href = "/myTasks">My tasks </NavLink>}
-                    </NavItem>
-                    <NavItem>
-                        {!AuthService.getUserInfo() && <NavLink href = "/login">Login</NavLink>}
-                    </NavItem>
-                    <NavItem>
-                        {AuthService.getUserInfo() && <Button className="btn btn-primary" onClick={AuthService.logOut}>Logout</Button>}
+                        <NavLink href="/login">
+                            {AuthService.getUserInfo() &&
+                            <Button className="btn btn-sm btn-danger" onClick={AuthService.logOut}>Logout</Button>}
+                        </NavLink>
                     </NavItem>
                 </Nav>
             </Navbar>
             <Switch>
                 <Route exact path="/" component={Home}/>
-                <Route path="/createMagazine/:id" component={CreateMagazine}/>
-                <Route path="/createMagazine" component={CreateMagazine}/>
-                <Route path="/userRegistration/:id" component={UserRegistration}/>
-                <Route path="/userRegistration" component={UserRegistration}/>
+                <Route path="/textReview/:id" component={TextReview}/>
+                <Route path="/textReview" component={TextReview}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/loginFailed" component={LoginFailed}/>
                 <Route path="/activate/:id" component={Activated}/>

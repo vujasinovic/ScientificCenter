@@ -1,15 +1,15 @@
 package rs.ac.ftn.uns.upp.scientificcenter.service;
 
-import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
+import rs.ac.ftn.uns.upp.scientificcenter.dto.FormDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
 
 import java.util.List;
 import java.util.Map;
 
 public interface ProcessInstanceService {
-    FormFieldDto startProcess();
+    FormDto startProcess();
 
-    FormFieldDto getFormFields(String taskId);
+    FormDto getFormFields(String taskId);
 
     String submitForm(String taskId, Map<String, Object> formData);
 

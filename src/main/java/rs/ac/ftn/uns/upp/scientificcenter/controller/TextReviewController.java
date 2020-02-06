@@ -11,37 +11,36 @@ import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessInstanceService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static rs.ac.ftn.uns.upp.scientificcenter.globals.ProcessInstanceServiceBeanName.CREATE_MAGAZINE_SERVICE;
+import static rs.ac.ftn.uns.upp.scientificcenter.globals.ProcessInstanceServiceBeanName.TEXT_REVIEW_SERVICE;
 import static rs.ac.ftn.uns.upp.scientificcenter.utils.MapperUtils.cast;
 
 @RestController
-@RequestMapping(value = "/api/magazine")
-public class MagazineController {
-    private final ProcessInstanceService createMagazineService;
+@RequestMapping(value = "/api/textReview")
+public class TextReviewController {
+    private final ProcessInstanceService textReviewService;
 
-    public MagazineController(@ProcessHandler(CREATE_MAGAZINE_SERVICE) ProcessInstanceService processInstanceService) {
-        this.createMagazineService = processInstanceService;
+    public TextReviewController(@ProcessHandler(TEXT_REVIEW_SERVICE) ProcessInstanceService textReviewService) {
+        this.textReviewService = textReviewService;
     }
 
     @GetMapping
     public ResponseEntity getStartProcess() {
-        return new ResponseEntity<>(createMagazineService.startProcess(), HttpStatus.OK);
+        return new ResponseEntity<>(textReviewService.startProcess(), HttpStatus.OK);
     }
 
     @PostMapping("/{taskId}")
     public ResponseEntity postForm(HttpServletRequest request, @PathVariable String taskId) {
-        String processId = createMagazineService.submitForm(taskId, cast(request.getParameterMap()));
+        String processId = textReviewService.submitForm(taskId, cast(request.getParameterMap()));
 
-        List<TaskDto> tasks = createMagazineService.findNextTasks(processId);
+        List<TaskDto> tasks = textReviewService.findNextTasks(processId);
 
         return tasks.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(tasks.get(0), HttpStatus.OK);
     }
 
     @GetMapping("/{taskId}")
     public ResponseEntity getTaskForm(@PathVariable String taskId) {
-        FormDto formFields = createMagazineService.getFormFields(taskId);
+        FormDto formFields = textReviewService.getFormFields(taskId);
 
         return new ResponseEntity<>(formFields, HttpStatus.OK);
     }
-
 }

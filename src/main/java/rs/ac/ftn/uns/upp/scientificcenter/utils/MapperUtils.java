@@ -1,5 +1,7 @@
 package rs.ac.ftn.uns.upp.scientificcenter.utils;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -7,11 +9,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class MapUtils {
+public final class MapperUtils {
     private static final String DATE = "date";
     private static final String SQL_DATE_SPLIT = "-";
     private static final String CAMUNDA_DATE_SPLIT = "/";
-    private static final String ANOTHER_ONE = "anotherOne";
     private static final String ENUM = "Enum";
     private static final String WHITESPACE = " ";
 
@@ -34,5 +35,19 @@ public final class MapUtils {
         }
 
         return res;
+    }
+
+    public static <T> T map(Object source, Class<T> destination) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+        return objectMapper.convertValue(source, destination);
+    }
+
+    public static <T> T writeVariablesToObject(Map<String, Object> variables, Class<T> responseType) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+        return objectMapper.convertValue(variables, responseType);
     }
 }

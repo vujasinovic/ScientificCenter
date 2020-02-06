@@ -1,6 +1,10 @@
 package rs.ac.ftn.uns.upp.scientificcenter.config;
 
+import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.IdentityService;
+import org.camunda.bpm.engine.authorization.Authorization;
+import org.camunda.bpm.engine.authorization.Resources;
+import org.camunda.bpm.engine.identity.Group;
 import org.camunda.bpm.engine.identity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,22 +12,29 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
+import static org.camunda.bpm.engine.authorization.Authorization.AUTH_TYPE_GLOBAL;
+import static org.camunda.bpm.engine.authorization.Authorization.AUTH_TYPE_GRANT;
+import static org.camunda.bpm.engine.authorization.Permissions.ACCESS;
+import static org.camunda.bpm.engine.authorization.Permissions.ALL;
+import static org.camunda.bpm.engine.authorization.Resources.APPLICATION;
+
 @Component
 public class InitialUsersConfig {
+    private static final String GROUP_TYPE = "WORKFLOW";
+    private static final String REVIEWERS = "reviewers";
+    private static final String REVIEWER_PASSWORD = "reviewer";
+    private static final String TASKLIST = "tasklist";
+
     @Autowired
     private IdentityService identityService;
 
+    @Autowired
+    private AuthorizationService authorizationService;
+
     @PostConstruct
     public void setupUsers() {
-        List<User> users = identityService.createUserQuery().userIdIn("reviewer", "editor", "guest", "demo").list();
-        if(users.isEmpty() ) {
-            User user1 = identityService.newUser("reviewer");
-            user1.setEmail("reviewer@mail.com");
-            user1.setFirstName("Reviewer");
-            user1.setLastName("Reviewer");
-            user1.setPassword("reviewer");
-            identityService.saveUser(user1);
-
+        List<User> users = identityService.createUserQuery().userIdIn("editor", "guest", "demo").list();
+        if (users.isEmpty()) {
             User user2 = identityService.newUser("editor");
             user2.setEmail("editor@mail.com");
             user2.setFirstName("Editor");
@@ -47,5 +58,83 @@ public class InitialUsersConfig {
 
             identityService.saveUser(user4);
         }
+
+        createReviewers();
+    }
+
+    private void createReviewers() {
+        List<User> users = identityService.createUserQuery().userIdIn("reviewer1", "reviewer2", "reviewer3", "reviewer4").list();
+
+        if (users.isEmpty()) {
+            User user1 = identityService.newUser("reviewer1");
+            user1.setEmail("reviewer1@mail.com");
+            user1.setFirstName("Reviewer1");
+            user1.setLastName("Reviewer1");
+            user1.setPassword(REVIEWER_PASSWORD);
+            identityService.saveUser(user1);
+
+            User user2 = identityService.newUser("reviewer2");
+            user2.setEmail("reviewer2@mail.com");
+            user2.setFirstName("Reviewer2");
+            user2.setLastName("Reviewer2");
+            user2.setPassword(REVIEWER_PASSWORD);
+            identityService.saveUser(user2);
+
+            User user3 = identityService.newUser("reviewer3");
+            user3.setEmail("reviewer3@mail.com");
+            user3.setFirstName("Reviewer3");
+            user3.setLastName("Reviewer3");
+            user3.setPassword(REVIEWER_PASSWORD);
+
+            identityService.saveUser(user3);
+
+            User user4 = identityService.newUser("reviewer4");
+            user4.setEmail("reviewer4@mail.com");
+            user4.setFirstName("Reviewer4");
+            user4.setLastName("Reviewer4");
+            user4.setPassword(REVIEWER_PASSWORD);
+
+            identityService.saveUser(user4);
+
+            Group reviewers = identityService.newGroup(REVIEWERS);
+            reviewers.setName("Reviewers");
+            reviewers.setType(GROUP_TYPE);
+            identityService.saveGroup(reviewers);
+
+            identityService.createMembership("reviewer1", REVIEWERS);
+            identityService.createMembership("reviewer2", REVIEWERS);
+            identityService.createMembership("reviewer3", REVIEWERS);
+            identityService.createMembership("reviewer4", REVIEWERS);
+
+            createAuthorizations(REVIEWERS);
+        }
+    }
+
+    private void createAuthorizations(String groupId) {
+        Authorization applicationAuthorization = authorizationService.createNewAuthorization(AUTH_TYPE_GRANT);
+        applicationAuthorization.setGroupId(groupId);
+        applicationAuthorization.addPermission(ALL);
+        applicationAuthorization.setResourceId(TASKLIST);
+        applicationAuthorization.setResource(APPLICATION);
+        authorizationService.saveAuthorization(applicationAuthorization);
+
+        Authorization processInstanceAuthorization = authorizationService.createNewAuthorization(AUTH_TYPE_GRANT);
+        processInstanceAuthorization.setGroupId(groupId);
+        processInstanceAuthorization.addPermission(ALL);
+        processInstanceAuthorization.setResource(Resources.PROCESS_INSTANCE);
+        authorizationService.saveAuthorization(processInstanceAuthorization);
+
+        Authorization processDefinitionAuthorization = authorizationService.createNewAuthorization(AUTH_TYPE_GRANT);
+        processDefinitionAuthorization.setGroupId(groupId);
+        processDefinitionAuthorization.addPermission(ALL);
+        processDefinitionAuthorization.setResource(Resources.PROCESS_DEFINITION);
+        processDefinitionAuthorization.setResourceId("textReview");
+        authorizationService.saveAuthorization(processDefinitionAuthorization);
+
+        Authorization taskAuthorization = authorizationService.createNewAuthorization(AUTH_TYPE_GRANT);
+        taskAuthorization.setGroupId(groupId);
+        taskAuthorization.addPermission(ALL);
+        taskAuthorization.setResource(Resources.TASK);
+        authorizationService.saveAuthorization(taskAuthorization);
     }
 }

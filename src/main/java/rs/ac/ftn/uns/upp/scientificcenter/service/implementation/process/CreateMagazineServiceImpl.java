@@ -7,7 +7,7 @@ import org.camunda.bpm.engine.form.TaskFormData;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.stereotype.Service;
-import rs.ac.ftn.uns.upp.scientificcenter.dto.FormFieldDto;
+import rs.ac.ftn.uns.upp.scientificcenter.dto.FormDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
 import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessInstanceService;
 import rs.ac.ftn.uns.upp.scientificcenter.service.ProcessService;
@@ -39,7 +39,7 @@ public class CreateMagazineServiceImpl implements ProcessInstanceService {
     private final FormService formService;
 
     @Override
-    public FormFieldDto startProcess() {
+    public FormDto startProcess() {
         ProcessInstance processInstance = processService.start(ProcessName.CREATE_MAGAZINE);
         String processInstanceId = processInstance.getId();
 
@@ -52,13 +52,13 @@ public class CreateMagazineServiceImpl implements ProcessInstanceService {
         runtimeService.setVariable(processInstanceId, EDITORS, new ArrayList<>());
         runtimeService.setVariable(processInstanceId, REVIEWERS, new ArrayList<>());
 
-        return new FormFieldDto(processInstanceId, taskId, taskFormData.getFormFields());
+        return new FormDto(processInstanceId, taskId, new ArrayList<>());
     }
 
     @Override
-    public FormFieldDto getFormFields(String taskId) {
+    public FormDto getFormFields(String taskId) {
         Task task = taskService.getById(taskId);
-        return new FormFieldDto(task.getProcessInstanceId(), task.getId(), taskService.formData(taskId).getFormFields());
+        return new FormDto(task.getProcessInstanceId(), task.getId(), new ArrayList<>());
     }
 
     @Override

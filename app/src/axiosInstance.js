@@ -1,8 +1,6 @@
 import AuthService from "./authService";
 import axios from "axios"
 
-const isLoggedIn = AuthService.getRoles() != null;
-
 const axiosInstance = axios.create({
 });
 
