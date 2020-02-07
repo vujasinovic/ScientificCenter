@@ -2,6 +2,7 @@ package rs.ac.ftn.uns.upp.scientificcenter.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.ftn.uns.upp.scientificcenter.annotation.ProcessHandler;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.FormDto;
@@ -24,8 +25,8 @@ public class MagazineController {
     }
 
     @GetMapping
-    public ResponseEntity getStartProcess() {
-        return new ResponseEntity<>(createMagazineService.startProcess(), HttpStatus.OK);
+    public ResponseEntity getStartProcess(Authentication authentication) {
+        return new ResponseEntity<>(createMagazineService.startProcess(authentication.getName()), HttpStatus.OK);
     }
 
     @PostMapping("/{taskId}")

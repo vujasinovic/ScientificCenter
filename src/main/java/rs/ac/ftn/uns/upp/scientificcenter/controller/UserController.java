@@ -29,8 +29,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity getStartProcess() {
-        return new ResponseEntity<>(userRegistrationService.startProcess(), HttpStatus.OK);
+    public ResponseEntity getStartProcess(Authentication authentication) {
+        return new ResponseEntity<>(userRegistrationService.startProcess(authentication.getName()), HttpStatus.OK);
     }
 
     @PostMapping("/{taskId}")

@@ -6,6 +6,8 @@ import org.camunda.bpm.engine.task.Task;
 import java.util.List;
 
 public interface TaskService {
+    Task claim(String taskId, String userId);
+
     Task getByProcess(String processInstanceId);
 
     TaskFormData formData(String taskId);

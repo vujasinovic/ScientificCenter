@@ -17,6 +17,8 @@ public class CamundaUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = identityService.createUserQuery().userId(username).singleResult();
 
+        identityService.createGroupQuery().groupMember(user.getId());
+
         return org.springframework.security.core.userdetails.User.builder()
                 .username(username)
                 .password(user.getPassword())

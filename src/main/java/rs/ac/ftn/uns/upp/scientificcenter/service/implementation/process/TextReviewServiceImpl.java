@@ -2,6 +2,8 @@ package rs.ac.ftn.uns.upp.scientificcenter.service.implementation.process;
 
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.FormService;
+import org.camunda.bpm.engine.IdentityService;
+import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.form.TaskFormData;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -30,12 +32,19 @@ public class TextReviewServiceImpl implements ProcessInstanceService {
 
     private final FormService formService;
 
+    private final IdentityService identityService;
+
+    private final RuntimeService runtimeService;
+
     @Override
-    public FormDto startProcess() {
+    public FormDto startProcess(String username) {
+        identityService.clearAuthentication();
+
         ProcessInstance processInstance = processService.start(ProcessName.TEXT_REVIEW);
         String processInstanceId = processInstance.getId();
 
         Task task = taskService.getByProcess(processInstanceId);
+
         String taskId = task.getId();
 
         TaskFormData taskFormData = taskService.formData(taskId);

@@ -1,7 +1,6 @@
 package rs.ac.ftn.uns.upp.scientificcenter.config.security;
 
 import lombok.RequiredArgsConstructor;
-import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

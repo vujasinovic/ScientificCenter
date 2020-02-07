@@ -10,7 +10,7 @@
                 <camunda:formData>
                     <camunda:formField id="magazineAuthor" label="Pick a magazine" type="string">
                         <camunda:properties>
-                            <camunda:property id="reviewers" value="reviewers" />
+                            <camunda:property id="magazine" value="magazine" />
                         </camunda:properties>
                     </camunda:formField>
                 </camunda:formData>
@@ -19,7 +19,7 @@
             <bpmn:outgoing>SequenceFlow_0hwj5en</bpmn:outgoing>
         </bpmn:userTask>
         <bpmn:sequenceFlow id="SequenceFlow_0hwj5en" sourceRef="Task_0gaxfki" targetRef="Task_1l339x3" />
-        <bpmn:serviceTask id="Task_1l339x3" name="Check membership" camunda:expression="${magazineAuthor != &#34;john&#34;}" camunda:resultVariable="openAccess">
+        <bpmn:serviceTask id="Task_1l339x3" name="Check membership" camunda:class="rs.ac.ftn.uns.upp.scientificcenter.service.task.CheckMemberShipService">
             <bpmn:incoming>SequenceFlow_0hwj5en</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_1ikio0o</bpmn:outgoing>
         </bpmn:serviceTask>
@@ -32,7 +32,7 @@
         <bpmn:sequenceFlow id="SequenceFlow_17luap0" name="open access" sourceRef="ExclusiveGateway_1xhaijk" targetRef="Task_1dq8or5">
             <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${openAccess == true}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
-        <bpmn:serviceTask id="Task_1dq8or5" name="Check active membership?" camunda:expression="${magazineAuthor == &#34;peter&#34;}" camunda:resultVariable="isPeter">
+        <bpmn:serviceTask id="Task_1dq8or5" name="Check active membership?" camunda:class="rs.ac.ftn.uns.upp.scientificcenter.service.task.CheckActiveMembershipService">
             <bpmn:incoming>SequenceFlow_17luap0</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_14qc4uk</bpmn:outgoing>
         </bpmn:serviceTask>
@@ -52,7 +52,7 @@
             <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${openAccess == false}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:sequenceFlow id="SequenceFlow_1cnamnc" name="has active membership" sourceRef="ExclusiveGateway_05rzhmt" targetRef="ExclusiveGateway_08spxma">
-            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPeter== false}</bpmn:conditionExpression>
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${membershipActive== false}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:subProcess id="SubProcess_0y6j9eg" name="Membership payment">
             <bpmn:incoming>SequenceFlow_1kr9ewe</bpmn:incoming>
@@ -82,7 +82,7 @@
             <bpmn:sequenceFlow id="SequenceFlow_14097ml" sourceRef="Task_1e40ufl" targetRef="EndEvent_1m7dkq3" />
         </bpmn:subProcess>
         <bpmn:sequenceFlow id="SequenceFlow_1kr9ewe" name="has to pay&#10;&#10;" sourceRef="ExclusiveGateway_05rzhmt" targetRef="SubProcess_0y6j9eg">
-            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${isPeter == true}</bpmn:conditionExpression>
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${membershipActive== true}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:sequenceFlow id="SequenceFlow_0qfxdbf" name="membership paid" sourceRef="SubProcess_0y6j9eg" targetRef="ExclusiveGateway_08spxma">
             <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${paid == true}</bpmn:conditionExpression>
@@ -120,7 +120,7 @@
                 <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">2</bpmn:loopCardinality>
             </bpmn:multiInstanceLoopCharacteristics>
         </bpmn:serviceTask>
-        <bpmn:userTask id="Task_0wvllxz" name="Check paper" camunda:assignee="${magazineAuthor}">
+        <bpmn:userTask id="Task_0wvllxz" name="Check paper" camunda:candidateGroups="autho">
             <bpmn:extensionElements>
                 <camunda:formData>
                     <camunda:formField id="title" label="Title:" type="string" defaultValue="${title}">

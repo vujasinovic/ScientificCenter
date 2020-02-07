@@ -26,7 +26,7 @@ class UserTask extends React.Component {
             <div className="mt-3 container-fluid">
                 <h1>Tasks:</h1>
                 {tasks.map(task =>
-                    <Link color="primary" className="btn btn-primary" to={"/createMagazine/" + task.id}>{task.name}</Link>
+                    <Link color="primary" className="btn btn-primary" to={"/textReview/" + task.id}>{task.name}</Link>
                 )}
             </div>
         )

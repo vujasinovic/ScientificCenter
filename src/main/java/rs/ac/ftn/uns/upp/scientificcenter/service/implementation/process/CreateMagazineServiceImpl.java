@@ -6,6 +6,7 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.form.TaskFormData;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.FormDto;
 import rs.ac.ftn.uns.upp.scientificcenter.dto.TaskDto;
@@ -39,7 +40,7 @@ public class CreateMagazineServiceImpl implements ProcessInstanceService {
     private final FormService formService;
 
     @Override
-    public FormDto startProcess() {
+    public FormDto startProcess(String username) {
         ProcessInstance processInstance = processService.start(ProcessName.CREATE_MAGAZINE);
         String processInstanceId = processInstance.getId();
 

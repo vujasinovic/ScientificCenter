@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-import static org.camunda.bpm.engine.authorization.Authorization.AUTH_TYPE_GLOBAL;
 import static org.camunda.bpm.engine.authorization.Authorization.AUTH_TYPE_GRANT;
-import static org.camunda.bpm.engine.authorization.Permissions.ACCESS;
 import static org.camunda.bpm.engine.authorization.Permissions.ALL;
 import static org.camunda.bpm.engine.authorization.Resources.APPLICATION;
 
@@ -22,7 +20,9 @@ import static org.camunda.bpm.engine.authorization.Resources.APPLICATION;
 public class InitialUsersConfig {
     private static final String GROUP_TYPE = "WORKFLOW";
     private static final String REVIEWERS = "reviewers";
+    private static final String EDITORS = "editors";
     private static final String REVIEWER_PASSWORD = "reviewer";
+    private static final String EDITOR_PASSWORD = "editor";
     private static final String TASKLIST = "tasklist";
 
     @Autowired
@@ -60,6 +60,8 @@ public class InitialUsersConfig {
         }
 
         createReviewers();
+        createEditors();
+
     }
 
     private void createReviewers() {
@@ -107,6 +109,54 @@ public class InitialUsersConfig {
             identityService.createMembership("reviewer4", REVIEWERS);
 
             createAuthorizations(REVIEWERS);
+        }
+    }
+
+    private void createEditors() {
+        List<User> users = identityService.createUserQuery().userIdIn("editor1", "editor2", "editor3", "editor4").list();
+
+        if (users.isEmpty()) {
+            User user1 = identityService.newUser("editor1");
+            user1.setEmail("editor1@mail.com");
+            user1.setFirstName("Editor1");
+            user1.setLastName("Editor1");
+            user1.setPassword(EDITOR_PASSWORD);
+            identityService.saveUser(user1);
+
+            User user2 = identityService.newUser("editor2");
+            user2.setEmail("editor2@mail.com");
+            user2.setFirstName("Editor2");
+            user2.setLastName("Editor2");
+            user2.setPassword(EDITOR_PASSWORD);
+            identityService.saveUser(user2);
+
+            User user3 = identityService.newUser("editor3");
+            user3.setEmail("editor3@mail.com");
+            user3.setFirstName("Editor3");
+            user3.setLastName("Editor3");
+            user3.setPassword(EDITOR_PASSWORD);
+
+            identityService.saveUser(user3);
+
+            User user4 = identityService.newUser("editor4");
+            user4.setEmail("editor4@mail.com");
+            user4.setFirstName("Editor4");
+            user4.setLastName("Editor4");
+            user4.setPassword(EDITOR_PASSWORD);
+
+            identityService.saveUser(user4);
+
+            Group editors = identityService.newGroup(EDITORS);
+            editors.setName("Editors");
+            editors.setType(GROUP_TYPE);
+            identityService.saveGroup(editors);
+
+            identityService.createMembership("editor1", EDITORS);
+            identityService.createMembership("editor2", EDITORS);
+            identityService.createMembership("editor3", EDITORS);
+            identityService.createMembership("editor4", EDITORS);
+
+            createAuthorizations(EDITORS);
         }
     }
 

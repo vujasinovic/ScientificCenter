@@ -4,6 +4,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.lang.reflect.Array;
+import java.util.Map;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ObjectUtils {
 
@@ -20,5 +23,28 @@ public final class ObjectUtils {
         }
 
         return retVal;
+    }
+
+    public static boolean equalsAnyIgnoreCase(String string, String... targets) {
+        boolean retVal = false;
+
+        if (ArrayUtils.isNotEmpty(targets)) {
+            for (String target : targets) {
+                if (string.equalsIgnoreCase(target)) {
+                    retVal = true;
+                    break;
+                }
+            }
+        }
+
+        return retVal;
+    }
+
+    public static <K, V> boolean nullOrEmpty(Map<K, V> map) {
+        return map == null || map.size() == 0;
+    }
+
+    public static <K, V> boolean notNullOrEmpty(Map<K, V> map) {
+        return (map != null ? map.size() : 0) != 0;
     }
 }

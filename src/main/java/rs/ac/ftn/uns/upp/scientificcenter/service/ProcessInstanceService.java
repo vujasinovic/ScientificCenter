@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ProcessInstanceService {
-    FormDto startProcess();
+    FormDto startProcess(String username);
 
     FormDto getFormFields(String taskId);
 

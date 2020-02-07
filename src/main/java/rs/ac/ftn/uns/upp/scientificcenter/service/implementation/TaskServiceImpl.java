@@ -20,6 +20,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public Task claim(String taskId, String userId) {
+        Task task = getById(taskId);
+        task.setAssignee(userId);
+        taskService.claim(taskId, userId);
+
+        return task;
+    }
+
+    @Override
     public Task getByProcess(String processInstanceId) {
         return taskService.createTaskQuery().processInstanceId(processInstanceId).list().get(0);
     }
