@@ -287,8 +287,16 @@
         <bpmn:userTask id="Task_186dbtb" name="Editor analysis" camunda:assignee="${mainEditor}">
             <bpmn:extensionElements>
                 <camunda:formData>
-                    <camunda:formField id="comments" label="Comments:" type="string" defaultValue="${commentToEditor}" />
-                    <camunda:formField id="evaluationResults" label="Ratings: " type="string" defaultValue="${evaluationEnum}" />
+                    <camunda:formField id="comments" label="Comments:" type="string" defaultValue="${commentToEditor}">
+                        <camunda:validation>
+                            <camunda:constraint name="readonly" />
+                        </camunda:validation>
+                    </camunda:formField>
+                    <camunda:formField id="evaluationResults" label="Ratings: " type="string" defaultValue="${evaluationEnum}">
+                        <camunda:validation>
+                            <camunda:constraint name="readonly" />
+                        </camunda:validation>
+                    </camunda:formField>
                     <camunda:formField id="finalEvaluationEnum" label="Final evaluation" type="enum">
                         <camunda:value id="accept" name="Accept" />
                         <camunda:value id="decline" name="Decline" />
@@ -305,7 +313,7 @@
             <bpmn:incoming>SequenceFlow_0w0d12y</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_1nyq5h4</bpmn:outgoing>
         </bpmn:userTask>
-        <bpmn:serviceTask id="Task_0srkvdy" name="Collect results" camunda:expression="${finalEvaluation}" camunda:resultVariable="finalEvaluation">
+        <bpmn:serviceTask id="Task_0srkvdy" name="Collect results" camunda:expression="${finalEvaluationEnum}" camunda:resultVariable="finalEvaluation">
             <bpmn:incoming>SequenceFlow_1nyq5h4</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_13r7tu0</bpmn:outgoing>
         </bpmn:serviceTask>
@@ -318,7 +326,7 @@
         </bpmn:exclusiveGateway>
         <bpmn:sequenceFlow id="SequenceFlow_13r7tu0" sourceRef="Task_0srkvdy" targetRef="ExclusiveGateway_0co5ers" />
         <bpmn:sequenceFlow id="SequenceFlow_1k6xm3g" name="paper declined" sourceRef="ExclusiveGateway_0co5ers" targetRef="Task_0vsft72">
-            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${finalEvaluationEnum == "decline"}</bpmn:conditionExpression>
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${finalEvaluation == "decline"}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:sequenceFlow id="SequenceFlow_0o0l4l1" sourceRef="Task_0vsft72" targetRef="EndEvent_1p8srz4" />
         <bpmn:serviceTask id="Task_0vsft72" name="Send notification mail" camunda:expression="${&#34;Paper declined&#34;}" camunda:resultVariable="sentMail">
@@ -331,7 +339,7 @@
             <bpmn:terminateEventDefinition />
         </bpmn:endEvent>
         <bpmn:sequenceFlow id="SequenceFlow_1rs5h1r" name="paper accepted" sourceRef="ExclusiveGateway_0co5ers" targetRef="Task_0ecv6nb">
-            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${finalEvaluationEnum == "accept"}</bpmn:conditionExpression>
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${finalEvaluation == "accept"}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:serviceTask id="Task_0ecv6nb" name="Send notification mail" camunda:expression="${&#34;Paper accepted&#34;}" camunda:resultVariable="sentMail">
             <bpmn:incoming>SequenceFlow_1rs5h1r</bpmn:incoming>
@@ -348,7 +356,7 @@
         </bpmn:endEvent>
         <bpmn:sequenceFlow id="SequenceFlow_0h1rggs" sourceRef="Task_1rlbbkt" targetRef="EndEvent_08cpdp6" />
         <bpmn:sequenceFlow id="SequenceFlow_0gc42ms" name="needs work" sourceRef="ExclusiveGateway_0co5ers" targetRef="Task_1fu46bg">
-            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${finalEvaluationEnum == "makesmallimprovements" || finalEvaluationEnum == "needswork"}</bpmn:conditionExpression>
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${finalEvaluation == "makesmallimprovements" || finalEvaluationEnum == "needswork"}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:serviceTask id="Task_1fu46bg" name="Send notofication mail" camunda:expression="${&#34;Needs work&#34;}" camunda:resultVariable="sentMail">
             <bpmn:incoming>SequenceFlow_0gc42ms</bpmn:incoming>
@@ -396,12 +404,28 @@
         <bpmn:userTask id="Task_0lmo7pu" name="Review" camunda:assignee="${mainEditor}">
             <bpmn:extensionElements>
                 <camunda:formData>
-                    <camunda:formField id="commentForEditor" label="Comment: " type="string" defaultValue="${reviewer} : ${commentToEditor}" />
-                    <camunda:formField id="commentForAuthor" label="Comment to author" type="string" defaultValue="${comment}" />
-                    <camunda:formField id="authorReply" label="Author reply:" type="string" defaultValue="${reply}" />
-                    <camunda:formField id="pdf" label="PDF" type="string" defaultValue="${pdf}" />
-                    <camunda:formField id="decision" label="Decision" type="enum">
-                        <camunda:value id="accepted" name="Accept" />
+                    <camunda:formField id="commentForEditor" label="Comment: " type="string" defaultValue="${commentToEditor}">
+                        <camunda:validation>
+                            <camunda:constraint name="readonly" />
+                        </camunda:validation>
+                    </camunda:formField>
+                    <camunda:formField id="commentForAuthor" label="Comment to author" type="string" defaultValue="${comment}">
+                        <camunda:validation>
+                            <camunda:constraint name="readonly" />
+                        </camunda:validation>
+                    </camunda:formField>
+                    <camunda:formField id="authorReply" label="Author reply:" type="string" defaultValue="${reply}">
+                        <camunda:validation>
+                            <camunda:constraint name="readonly" />
+                        </camunda:validation>
+                    </camunda:formField>
+                    <camunda:formField id="pdf" label="PDF" type="string" defaultValue="${pdf}">
+                        <camunda:validation>
+                            <camunda:constraint name="readonly" />
+                        </camunda:validation>
+                    </camunda:formField>
+                    <camunda:formField id="decisionEnum" label="Decision" type="enum">
+                        <camunda:value id="accept" name="Accept" />
                         <camunda:value id="deny" name="Deny" />
                     </camunda:formField>
                     <camunda:formField id="timeForAdjustments" label="Time for adjustments" type="long">
@@ -414,7 +438,7 @@
             <bpmn:incoming>SequenceFlow_03a0oq4</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_0kzrslj</bpmn:outgoing>
         </bpmn:userTask>
-        <bpmn:serviceTask id="Task_078khku" name="Handle decision" camunda:expression="${decision}" camunda:resultVariable="decision">
+        <bpmn:serviceTask id="Task_078khku" name="Handle decision" camunda:expression="${decisionEnum}" camunda:resultVariable="decision">
             <bpmn:incoming>SequenceFlow_0kzrslj</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_1jpb5zl</bpmn:outgoing>
         </bpmn:serviceTask>
@@ -426,10 +450,10 @@
         </bpmn:exclusiveGateway>
         <bpmn:sequenceFlow id="SequenceFlow_1jpb5zl" sourceRef="Task_078khku" targetRef="ExclusiveGateway_04mdive" />
         <bpmn:sequenceFlow id="SequenceFlow_1cyx6bf" sourceRef="ExclusiveGateway_04mdive" targetRef="Task_0ecv6nb">
-            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${decision == "accepted"}</bpmn:conditionExpression>
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${decision == "accept"}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:sequenceFlow id="SequenceFlow_0awq7as" sourceRef="ExclusiveGateway_04mdive" targetRef="Task_1heq1nc">
-            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${decision == "deny"}</bpmn:conditionExpression>
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${decision == "accept"}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:exclusiveGateway id="ExclusiveGateway_07wt43e">
             <bpmn:incoming>SequenceFlow_03q3lwj</bpmn:incoming>
@@ -437,7 +461,7 @@
             <bpmn:outgoing>SequenceFlow_1l7nf09</bpmn:outgoing>
         </bpmn:exclusiveGateway>
         <bpmn:sequenceFlow id="SequenceFlow_03a0oq4" name="Small improvements" sourceRef="ExclusiveGateway_07wt43e" targetRef="Task_0lmo7pu">
-            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${finalEvaluationEnum == "makesmallimprovements"}</bpmn:conditionExpression>
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${finalEvaluation == "makesmallimprovements"}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:sequenceFlow id="SequenceFlow_0vchqgo" sourceRef="SubProcess_0y6j9eg" targetRef="EndEvent_1j4qovj">
             <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${paid == false}</bpmn:conditionExpression>
@@ -574,7 +598,7 @@
             <bpmn:sequenceFlow id="SequenceFlow_18aalu0" sourceRef="ServiceTask_02xuie8" targetRef="EndEvent_16679we" />
         </bpmn:subProcess>
         <bpmn:sequenceFlow id="SequenceFlow_1l7nf09" name="Needs work" sourceRef="ExclusiveGateway_07wt43e" targetRef="SubProcess_01mjz18">
-            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${finalEvaluationEnum != "makesmallimprovements"}</bpmn:conditionExpression>
+            <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${finalEvaluation != "makesmallimprovements"}</bpmn:conditionExpression>
         </bpmn:sequenceFlow>
         <bpmn:sequenceFlow id="SequenceFlow_1dy4zsj" sourceRef="Task_1v4sup2" targetRef="SubProcess_01mjz18" />
         <bpmn:sequenceFlow id="SequenceFlow_0w0d12y" sourceRef="SubProcess_01mjz18" targetRef="Task_186dbtb" />
