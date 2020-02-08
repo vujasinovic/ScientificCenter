@@ -10,6 +10,7 @@ import axiosInstance from "../axiosInstance";
 import Row from "reactstrap/es/Row";
 import Col from "reactstrap/es/Col";
 import Container from "reactstrap/es/Container";
+import MultiSelect from "@khanacademy/react-multi-select";
 
 class TextReview extends Component {
     constructor() {
@@ -49,13 +50,25 @@ class TextReview extends Component {
         const id = formField.id;
         const readOnly = formField.readOnly;
 
+        const {selected} = this.state;
+
         if (readOnly) {
             return (
                 <p className="text-info">{formField.value}</p>
             )
         }
 
-        if (formField.availableValues.length !== 0) {
+        console.log(this.state.selected);
+
+        if (typeName === inputType.LIST) {
+            let values = Object.values(formField.availableValues);
+            let options = [];
+            values.map(value => options.push({label: value, value: value}));
+
+            retVal = <MultiSelect id={id} options={options} selected={selected}
+                                  onSelectedChanged={selected => this.setState({selected})}/>
+
+        } else if (formField.availableValues.length !== 0) {
             let options = Object.values(formField.availableValues);
 
             retVal = <Input type="select" name={id} id={id}>
@@ -83,6 +96,7 @@ class TextReview extends Component {
     }
 
     state = {
+        selected: [],
         isLoading: true,
         me: String,
         taskFormFields: {
@@ -94,8 +108,12 @@ class TextReview extends Component {
 
     async handleSubmit(event) {
         event.preventDefault();
-
         const requestData = new FormData(event.target);
+
+        const selectedOptions = this.state.selected;
+        if (selectedOptions.length !== 0) {
+            requestData.append("reviewers", JSON.stringify(selectedOptions));
+        }
 
         let {data} = await axios.post('/api/textReview/' + this.state.taskFormFields.taskId, requestData);
 

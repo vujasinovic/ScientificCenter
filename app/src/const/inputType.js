@@ -3,5 +3,6 @@ export const inputType = {
     LONG: 'long',
     DATE: 'date',
     ENUM: 'enum',
-    BOOL: 'boolean'
+    BOOL: 'boolean',
+    LIST: 'list'
 };

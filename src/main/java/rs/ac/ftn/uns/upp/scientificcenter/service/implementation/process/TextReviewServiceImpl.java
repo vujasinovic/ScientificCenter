@@ -50,11 +50,9 @@ public class TextReviewServiceImpl implements ProcessInstanceService {
         runtimeService.setVariable(processInstanceId, "initiator", username);
 
         Task task = taskService.getByProcess(processInstanceId);
-
         String taskId = task.getId();
 
         TaskFormData taskFormData = taskService.formData(taskId);
-
         List<FormFieldDto> formFieldDtos = FormFieldsHelper.convertToDto(task.getProcessInstanceId(), taskFormData.getFormFields());
 
         return new FormDto(processInstanceId, taskId, formFieldDtos);

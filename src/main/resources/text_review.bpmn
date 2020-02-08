@@ -284,7 +284,7 @@
             <bpmn:outgoing>SequenceFlow_1etwr5x</bpmn:outgoing>
         </bpmn:serviceTask>
         <bpmn:sequenceFlow id="SequenceFlow_1etwr5x" sourceRef="Task_0kflxmc" targetRef="Task_1v4sup2" />
-        <bpmn:serviceTask id="Task_1ivxdl8" name="Send email notification" camunda:expression="${&#34;Notification&#34;}" camunda:resultVariable="sentMail">
+        <bpmn:serviceTask id="Task_1ivxdl8" name="Send email notification" camunda:expression="50" camunda:resultVariable="timeToReview">
             <bpmn:incoming>SequenceFlow_0ew9ps9</bpmn:incoming>
             <bpmn:incoming>SequenceFlow_1e8rtdd</bpmn:incoming>
             <bpmn:outgoing>SequenceFlow_0i48z2x</bpmn:outgoing>
@@ -333,11 +333,7 @@
             <bpmn:extensionElements>
                 <camunda:formData>
                     <camunda:formField id="reviewer" label="Reviewer:" type="enum" />
-                    <camunda:formField id="timeToReview" label="Time to review:" type="long">
-                        <camunda:validation>
-                            <camunda:constraint name="required" />
-                        </camunda:validation>
-                    </camunda:formField>
+                    <camunda:formField id="timeToReview" label="Time to review:" type="long" />
                 </camunda:formData>
                 <camunda:taskListener event="create">
                     <camunda:script scriptFormat="Groovy">taskFormData = task.getExecution().getProcessEngineServices().getFormService().getTaskFormData(task.getId());
@@ -554,7 +550,7 @@
         <bpmn:userTask id="Task_1v4sup2" name="Pick reviewers" camunda:assignee="${mainEditor}">
             <bpmn:extensionElements>
                 <camunda:formData>
-                    <camunda:formField id="reviewers" label="Pick reviewers" type="string">
+                    <camunda:formField id="reviewers" label="Pick reviewers" type="list">
                         <camunda:properties>
                             <camunda:property id="reviewers" value="reviewers" />
                         </camunda:properties>

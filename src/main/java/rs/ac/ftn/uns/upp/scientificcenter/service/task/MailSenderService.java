@@ -19,6 +19,7 @@ public class MailSenderService implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
+        /*
         String processInstanceId = execution.getProcessInstanceId();
         String address = (String) execution.getVariable("email");
 
@@ -35,5 +36,7 @@ public class MailSenderService implements JavaDelegate {
         mail.setSentDate(new Date());
 
         javaMailSender.send(mimeMessage);
+
+        */
     }
 }
