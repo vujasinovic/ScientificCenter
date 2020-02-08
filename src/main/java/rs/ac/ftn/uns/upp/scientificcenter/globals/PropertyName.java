@@ -9,4 +9,7 @@ public interface PropertyName {
     interface Magazine {
         String MAGAZINE = "magazine";
     }
+    interface ScientificArea {
+        String SCIENTIFIC_AREA = "scientificArea";
+    }
 }

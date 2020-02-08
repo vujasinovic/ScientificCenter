@@ -1,14 +1,28 @@
 package rs.ac.ftn.uns.upp.scientificcenter.handler;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
+import rs.ac.ftn.uns.upp.scientificcenter.bom.InitialMagazine;
+import rs.ac.ftn.uns.upp.scientificcenter.repository.InitialMagazineRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Component
 public class MagazineHandler {
+    private static InitialMagazineRepository initialMagazineRepository;
+
+    private MagazineHandler(InitialMagazineRepository initialMagazineRepository) {
+        MagazineHandler.initialMagazineRepository = initialMagazineRepository;
+    }
 
     public static List<String> getAvailableMagazines() {
-        return List.of("Open-Access Magazine (active membership)", "Open-Access magazine", "Non-open-access magazine");
+        List<InitialMagazine> magazines = initialMagazineRepository.findAll();
+        List<String> availableMagazines = new ArrayList<>();
+
+        for (InitialMagazine magazine : magazines) {
+            availableMagazines.add(magazine.getName());
+        }
+
+        return availableMagazines;
     }
 }

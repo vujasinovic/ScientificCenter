@@ -6,4 +6,5 @@ import rs.ac.ftn.uns.upp.scientificcenter.bom.ScientificArea;
 
 @Repository
 public interface ScientificAreaRepository extends JpaRepository<ScientificArea, Long> {
+    ScientificArea findByTitleIgnoreCase(String title);
 }

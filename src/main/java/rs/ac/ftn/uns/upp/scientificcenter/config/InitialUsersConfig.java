@@ -33,7 +33,7 @@ public class InitialUsersConfig {
 
     @PostConstruct
     public void setupUsers() {
-        List<User> users = identityService.createUserQuery().userIdIn("editor", "guest", "demo").list();
+        List<User> users = identityService.createUserQuery().userIdIn("editor", "guest", "demo", "john", "peter", "mary").list();
         if (users.isEmpty()) {
             User user2 = identityService.newUser("editor");
             user2.setEmail("editor@mail.com");
@@ -57,6 +57,30 @@ public class InitialUsersConfig {
             user4.setPassword("demo");
 
             identityService.saveUser(user4);
+
+            User user5 = identityService.newUser("john");
+            user5.setEmail("john@mail.com");
+            user5.setFirstName("John");
+            user5.setLastName("John");
+            user5.setPassword("john");
+
+            identityService.saveUser(user5);
+
+            User user6 = identityService.newUser("peter");
+            user6.setEmail("peter@mail.com");
+            user6.setFirstName("Peter");
+            user6.setLastName("Peter");
+            user6.setPassword("peter");
+
+            identityService.saveUser(user6);
+
+            User user7 = identityService.newUser("mary");
+            user7.setEmail("mary@mail.com");
+            user7.setFirstName("Mary");
+            user7.setLastName("Mary");
+            user7.setPassword("mary");
+
+            identityService.saveUser(user7);
         }
 
         createReviewers();
@@ -99,7 +123,7 @@ public class InitialUsersConfig {
             identityService.saveUser(user4);
 
             Group reviewers = identityService.newGroup(REVIEWERS);
-            reviewers.setName("Reviewers");
+            reviewers.setName("reviewers");
             reviewers.setType(GROUP_TYPE);
             identityService.saveGroup(reviewers);
 
@@ -147,7 +171,7 @@ public class InitialUsersConfig {
             identityService.saveUser(user4);
 
             Group editors = identityService.newGroup(EDITORS);
-            editors.setName("Editors");
+            editors.setName("editors");
             editors.setType(GROUP_TYPE);
             identityService.saveGroup(editors);
 

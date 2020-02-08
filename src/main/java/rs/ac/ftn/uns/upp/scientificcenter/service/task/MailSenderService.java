@@ -1,6 +1,7 @@
 package rs.ac.ftn.uns.upp.scientificcenter.service.task;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -11,12 +12,13 @@ import java.util.Date;
 
 public class MailSenderService implements JavaDelegate {
 
+    private Expression content;
+
     @Autowired
     private JavaMailSender javaMailSender;
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        /*
         String processInstanceId = execution.getProcessInstanceId();
         String address = (String) execution.getVariable("email");
 
@@ -33,6 +35,5 @@ public class MailSenderService implements JavaDelegate {
         mail.setSentDate(new Date());
 
         javaMailSender.send(mimeMessage);
-         */
     }
 }

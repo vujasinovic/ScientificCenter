@@ -10,7 +10,7 @@ public class CheckActiveMembershipService implements JavaDelegate {
 
         boolean membershipActive = false;
 
-        if (magazineAuthor.contains("active")) {
+        if (magazineAuthor.contains("peter")) {
             membershipActive = true;
         }
 

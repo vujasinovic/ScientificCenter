@@ -1,6 +1,8 @@
 package rs.ac.ftn.uns.upp.scientificcenter.service.implementation.process;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.RuntimeService;
@@ -26,6 +28,8 @@ import static rs.ac.ftn.uns.upp.scientificcenter.globals.ProcessInstanceServiceB
 @Service(TEXT_REVIEW_SERVICE)
 @RequiredArgsConstructor
 public class TextReviewServiceImpl implements ProcessInstanceService {
+    private static final Logger LOGGER = LogManager.getLogger(TextReviewServiceImpl.class);
+
     private final ProcessService processService;
 
     private final TaskService taskService;
@@ -43,13 +47,15 @@ public class TextReviewServiceImpl implements ProcessInstanceService {
         ProcessInstance processInstance = processService.start(ProcessName.TEXT_REVIEW);
         String processInstanceId = processInstance.getId();
 
+        runtimeService.setVariable(processInstanceId, "initiator", username);
+
         Task task = taskService.getByProcess(processInstanceId);
 
         String taskId = task.getId();
 
         TaskFormData taskFormData = taskService.formData(taskId);
 
-        List<FormFieldDto> formFieldDtos = FormFieldsHelper.convertToDto(taskFormData.getFormFields());
+        List<FormFieldDto> formFieldDtos = FormFieldsHelper.convertToDto(task.getProcessInstanceId(), taskFormData.getFormFields());
 
         return new FormDto(processInstanceId, taskId, formFieldDtos);
     }
@@ -60,7 +66,7 @@ public class TextReviewServiceImpl implements ProcessInstanceService {
         final String taskId = task.getId();
 
         TaskFormData taskFormData = taskService.formData(taskId);
-        List<FormFieldDto> formFieldDtos = FormFieldsHelper.convertToDto(taskFormData.getFormFields());
+        List<FormFieldDto> formFieldDtos = FormFieldsHelper.convertToDto(task.getProcessInstanceId(), taskFormData.getFormFields());
 
         return new FormDto(task.getProcessInstanceId(), taskId, formFieldDtos);
     }

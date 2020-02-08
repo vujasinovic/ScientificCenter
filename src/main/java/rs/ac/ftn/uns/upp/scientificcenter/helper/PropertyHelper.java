@@ -2,7 +2,9 @@ package rs.ac.ftn.uns.upp.scientificcenter.helper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.camunda.bpm.engine.form.FormFieldValidationConstraint;
 import rs.ac.ftn.uns.upp.scientificcenter.handler.MagazineHandler;
+import rs.ac.ftn.uns.upp.scientificcenter.handler.ScientificAreaHandler;
 import rs.ac.ftn.uns.upp.scientificcenter.handler.UsersHandler;
 
 import java.util.ArrayList;
@@ -12,11 +14,12 @@ import java.util.Map;
 import static rs.ac.ftn.uns.upp.scientificcenter.globals.PropertyName.Group.EDITORS;
 import static rs.ac.ftn.uns.upp.scientificcenter.globals.PropertyName.Group.REVIEWERS;
 import static rs.ac.ftn.uns.upp.scientificcenter.globals.PropertyName.Magazine.MAGAZINE;
+import static rs.ac.ftn.uns.upp.scientificcenter.globals.PropertyName.ScientificArea.SCIENTIFIC_AREA;
 import static rs.ac.ftn.uns.upp.scientificcenter.utils.ObjectUtils.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PropertyHelper {
-    public static List<String> findAvailableValues(Map<String, String> properties) {
+class PropertyHelper {
+    static List<String> findAvailableValues(Map<String, String> properties) {
         List<String> availableValues = new ArrayList<>();
 
         if (notNullOrEmpty(properties)) {
@@ -26,8 +29,25 @@ public class PropertyHelper {
                 availableValues = UsersHandler.getGroupMembersIds(key);
             } else if (equalsAny(key, MAGAZINE)) {
                 availableValues = MagazineHandler.getAvailableMagazines();
+            } else if (equalsAny(key, SCIENTIFIC_AREA)) {
+                availableValues = ScientificAreaHandler.getScientificAreas();
             }
         }
         return availableValues;
+    }
+
+    static Boolean checkConstraints(List<FormFieldValidationConstraint> validationConstraints) {
+        boolean retVal = false;
+
+        if (!nullOrEmpty(validationConstraints)) {
+            for (FormFieldValidationConstraint formFieldValidationConstraint : validationConstraints) {
+                if (formFieldValidationConstraint.getName().equalsIgnoreCase("readonly")) {
+                    retVal = true;
+                    break;
+                }
+            }
+        }
+
+        return retVal;
     }
 }

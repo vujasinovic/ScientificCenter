@@ -12,7 +12,7 @@ public class CheckMemberShipService implements JavaDelegate {
 
         boolean isOpenAccess = false;
 
-        if (equalsAnyIgnoreCase(magazineAuthor, "Open-Access magazine", "Open-Access Magazine (active membership)")) {
+        if (equalsAnyIgnoreCase(magazineAuthor, "john", "peter")) {
             isOpenAccess = true;
         }
 

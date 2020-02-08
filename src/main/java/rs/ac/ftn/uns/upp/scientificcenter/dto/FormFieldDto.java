@@ -3,6 +3,7 @@ package rs.ac.ftn.uns.upp.scientificcenter.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.camunda.bpm.engine.form.FormType;
 
 import java.util.List;
 
@@ -14,9 +15,13 @@ public class FormFieldDto {
 
     private String label;
 
-    private String type;
+    private FormType type;
 
     private String typeName;
 
     private List<String> availableValues;
+
+    private Boolean readOnly;
+
+    private String value;
 }

@@ -9,13 +9,12 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class ScientificArea {
-
+public class InitialMagazine {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
+    private String name;
 
-    private String editor;
+    private String author;
 }

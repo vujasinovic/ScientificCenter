@@ -44,14 +44,18 @@ class TextReview extends Component {
 
     generateInputField(formField) {
         let retVal;
-
         const typeName = formField.type.name;
 
-        console.log(typeName);
-
         const id = formField.id;
+        const readOnly = formField.readOnly;
 
-        if (formField.availableValues) {
+        if (readOnly) {
+            return (
+                <p className="text-info">{formField.value}</p>
+            )
+        }
+
+        if (formField.availableValues.length !== 0) {
             let options = Object.values(formField.availableValues);
 
             retVal = <Input type="select" name={id} id={id}>

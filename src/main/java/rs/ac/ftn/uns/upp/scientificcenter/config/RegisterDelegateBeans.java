@@ -2,9 +2,7 @@ package rs.ac.ftn.uns.upp.scientificcenter.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import rs.ac.ftn.uns.upp.scientificcenter.service.task.MailSenderService;
-import rs.ac.ftn.uns.upp.scientificcenter.service.task.PersistMagazineService;
-import rs.ac.ftn.uns.upp.scientificcenter.service.task.UserRegistrationService;
+import rs.ac.ftn.uns.upp.scientificcenter.service.task.*;
 
 @Configuration
 public class RegisterDelegateBeans {
@@ -22,5 +20,15 @@ public class RegisterDelegateBeans {
     @Bean
     public UserRegistrationService userRegistrationService() {
         return new UserRegistrationService();
+    }
+
+    @Bean
+    public SetAuthorService setAuthorService() {
+        return new SetAuthorService();
+    }
+
+    @Bean
+    public SetupEditorService setupEditorService() {
+        return new SetupEditorService();
     }
 }

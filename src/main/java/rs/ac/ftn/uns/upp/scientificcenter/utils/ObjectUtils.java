@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.lang.reflect.Array;
+import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -47,4 +48,9 @@ public final class ObjectUtils {
     public static <K, V> boolean notNullOrEmpty(Map<K, V> map) {
         return (map != null ? map.size() : 0) != 0;
     }
+
+    public static <T> boolean nullOrEmpty(List<T> list) {
+        return list == null || list.size() == 0;
+    }
+
 }
