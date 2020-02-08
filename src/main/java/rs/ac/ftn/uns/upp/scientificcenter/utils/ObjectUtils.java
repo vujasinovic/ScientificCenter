@@ -1,10 +1,13 @@
 package rs.ac.ftn.uns.upp.scientificcenter.utils;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +54,27 @@ public final class ObjectUtils {
 
     public static <T> boolean nullOrEmpty(List<T> list) {
         return list == null || list.size() == 0;
+    }
+
+    public static String convertArray(List<?> list) {
+        JsonArray jsonArray = new JsonArray();
+
+        list.forEach(e -> jsonArray.add(e.toString()));
+
+        return jsonArray.toString();
+    }
+
+    public static List<String> convertArray(String json) {
+        List<String> response = new ArrayList<>();
+
+        JsonElement jsonElement = JsonParser.parseString(json);
+        JsonArray jsonArray = jsonElement.getAsJsonArray();
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            response.add(jsonArray.get(i).getAsString());
+        }
+
+        return response;
     }
 
 }
