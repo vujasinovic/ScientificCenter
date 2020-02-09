@@ -15,6 +15,8 @@ import java.util.Date;
 public class MailSenderService implements JavaDelegate {
     private static final Logger LOGGER = LogManager.getLogger(MailSenderService.class);
 
+    private static final String EMAIL_ADDRESS = "naucna.centrala28@gmail.com";
+
     private Expression content;
 
     private Expression sendTo;
@@ -34,10 +36,10 @@ public class MailSenderService implements JavaDelegate {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mail = new MimeMessageHelper(mimeMessage, true);
-        mail.setTo("naucna.centrala28@gmail.com");
+        mail.setTo(EMAIL_ADDRESS);
         mail.setText("Sent to: " + sendTo + "\n\n" + content);
         mail.setSubject(subject);
-        mail.setFrom("naucna.centrala28@gmail.com");
+        mail.setFrom(EMAIL_ADDRESS);
         mail.setSentDate(new Date());
 
         javaMailSender.send(mimeMessage);
