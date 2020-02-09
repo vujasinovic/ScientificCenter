@@ -27,13 +27,17 @@ public class MailSenderService implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
-        LOGGER.info("\nSend email to: {} \ncontent: \n{}", sendTo.getValue(execution), content.getValue(execution));
+        final String sendTo = (String) this.sendTo.getValue(execution);
+        final String content = (String) this.content.getValue(execution);
+        final String subject = (String) this.subject.getValue(execution);
+
+        LOGGER.info("\nSend email to: {} \ncontent: \n{}", sendTo, content);
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mail = new MimeMessageHelper(mimeMessage, true);
         mail.setTo("naucna.centrala28@gmail.com");
-        mail.setText((String) content.getValue(execution));
-        mail.setSubject((String) subject.getValue(execution));
+        mail.setText("Sent to: " + sendTo + "\n\n" + (String) content);
+        mail.setSubject(subject);
         mail.setFrom("naucna.centrala28@gmail.com");
         mail.setSentDate(new Date());
 
