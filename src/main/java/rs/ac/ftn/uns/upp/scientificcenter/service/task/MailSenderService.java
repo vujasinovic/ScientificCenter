@@ -20,6 +20,8 @@ public class MailSenderService implements JavaDelegate {
 
     private Expression sendTo;
 
+    private Expression subject;
+
     @Autowired
     private JavaMailSender javaMailSender;
 
@@ -27,24 +29,15 @@ public class MailSenderService implements JavaDelegate {
     public void execute(DelegateExecution execution) throws Exception {
         LOGGER.info("\nSend email to: {} \ncontent: \n{}", sendTo.getValue(execution), content.getValue(execution));
 
-        /*
-        String processInstanceId = execution.getProcessInstanceId();
-        String address = (String) execution.getVariable("email");
-
-        System.out.println(address);
-
-        String link = "http://localhost:3000/activate/" + processInstanceId;
-
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mail = new MimeMessageHelper(mimeMessage, true);
-        mail.setTo(address);
-        mail.setText("You can confirm your registration by clicking on this link: " + link);
-        mail.setSubject("Registration confirmation");
+        mail.setTo("naucna.centrala28@gmail.com");
+        mail.setText((String) content.getValue(execution));
+        mail.setSubject((String) subject.getValue(execution));
         mail.setFrom("naucna.centrala28@gmail.com");
         mail.setSentDate(new Date());
 
         javaMailSender.send(mimeMessage);
 
-        */
     }
 }
