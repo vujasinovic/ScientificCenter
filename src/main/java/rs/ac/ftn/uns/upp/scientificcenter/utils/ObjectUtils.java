@@ -77,4 +77,7 @@ public final class ObjectUtils {
         return response;
     }
 
+    public static boolean notEmpty(List<?> list) {
+        return !list.isEmpty();
+    }
 }

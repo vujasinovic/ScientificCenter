@@ -31,4 +31,7 @@ public class RegisterDelegateBeans {
     public SetupEditorService setupEditorService() {
         return new SetupEditorService();
     }
+
+    @Bean
+    public HandleCommentsService handleCommentsService() { return new HandleCommentsService(); }
 }

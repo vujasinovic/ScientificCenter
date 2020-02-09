@@ -5,7 +5,17 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import {Nav, Navbar, NavbarBrand, NavItem, NavLink} from "reactstrap";
+import {
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
+    Nav,
+    Navbar,
+    NavbarBrand,
+    NavItem,
+    NavLink,
+    UncontrolledDropdown
+} from "reactstrap";
 import Notfound from "./notFound";
 import Home from "./home/home";
 import Login from "./login";
@@ -15,34 +25,53 @@ import UserTask from "./user_task/userTask";
 import Button from "reactstrap/lib/Button";
 import AuthService from "./authService";
 import TextReview from "./text_review/textReview";
+import ProcessFinished from "./processFinished";
+import {
+    FaHome,
+    FaRegIdCard,
+    FaRegPaperPlane,
+    GiMaterialsScience,
+    GiPlayButton,
+    IoMdLogIn,
+    IoMdLogOut
+} from "react-icons/all";
 
 const routing = (
     <Router>
         <div>
             <Navbar color="light" light expand="md">
-                <NavbarBrand href="/">Scientific Center</NavbarBrand>
+                <NavbarBrand href="/"><GiMaterialsScience/> Scientific Center</NavbarBrand>
                 <Nav className="mr-auto" navbar>
                     <NavItem>
-                        {AuthService.getUserInfo() && <NavLink href="/">Home</NavLink>}
+                        {AuthService.getUserInfo() && <NavLink href="/"><FaHome/> Home</NavLink>}
                     </NavItem>
+                    {AuthService.getUserInfo() &&
+                    <UncontrolledDropdown nav inNavbar>
+                        <DropdownToggle nav caret>
+                             Process
+                        </DropdownToggle>
+                        <DropdownMenu right>
+                            <DropdownItem>
+                                <NavLink href="/textReview"><FaRegPaperPlane/> Text review </NavLink>
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </UncontrolledDropdown>
+                    }
                     <NavItem>
-                        {AuthService.getUserInfo() && <NavLink href="/textReview">Text review </NavLink>}
-                    </NavItem>
-                    <NavItem>
-                        {AuthService.getUserInfo() && <NavLink href="/myTasks">My tasks </NavLink>}
+                        {AuthService.getUserInfo() && <NavLink href="/myTasks"><FaRegIdCard/> My tasks </NavLink>}
                     </NavItem>
                 </Nav>
                 <Nav className="ml-auto">
                     <NavItem>
                         {!AuthService.getUserInfo() &&
                         <NavLink href="/login">
-                            <Button className="btn btn-sm btn-primary" onClick={AuthService.login}>Login</Button>
+                            <Button className="btn btn-sm btn-primary" onClick={AuthService.login}><IoMdLogIn/> Login</Button>
                         </NavLink>}
                     </NavItem>
                     <NavItem>
                         <NavLink href="/login">
                             {AuthService.getUserInfo() &&
-                            <Button className="btn btn-sm btn-danger" onClick={AuthService.logOut}>Logout</Button>}
+                            <Button className="btn btn-sm btn-danger" onClick={AuthService.logOut}><IoMdLogOut/> Logout</Button>}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -54,7 +83,8 @@ const routing = (
                 <Route path="/login" component={Login}/>
                 <Route path="/loginFailed" component={LoginFailed}/>
                 <Route path="/activate/:id" component={Activated}/>
-                <Route payh="/myTasks" component={UserTask}/>
+                <Route path="/myTasks" component={UserTask}/>
+                <Route path="/finished" component={ProcessFinished}/>
                 <Route component={Notfound}/>
             </Switch>
         </div>

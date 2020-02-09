@@ -14,6 +14,8 @@ import rs.ac.ftn.uns.upp.scientificcenter.service.TaskService;
 import java.util.ArrayList;
 import java.util.List;
 
+import static rs.ac.ftn.uns.upp.scientificcenter.utils.ObjectUtils.notEmpty;
+
 @Service
 public class TaskServiceImpl implements TaskService {
     private static final Logger LOGGER = LogManager.getLogger(TaskServiceImpl.class);
@@ -57,8 +59,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getAllByProcess(String processInstanceId) {
         List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstanceId).list();
-        final Task nextTask = tasks.iterator().next();
-        LOGGER.info("[process] Next task: {}, assignee: {}", nextTask.getName(), nextTask.getAssignee());
+
+        if (notEmpty(tasks)) {
+            final Task nextTask = tasks.iterator().next();
+            LOGGER.info("[process] Next task: {}, assignee: {}", nextTask.getName(), nextTask.getAssignee());
+        }
+
         return tasks;
     }
 
@@ -76,8 +82,11 @@ public class TaskServiceImpl implements TaskService {
         }
 
         List<Task> tasks = taskService.createTaskQuery().taskCandidateGroupIn(groupNames).list();
-        final Task nextTask = tasks.iterator().next();
-        LOGGER.info("[user {}] Next task: {}, assignee: {}", username, nextTask.getName(), nextTask.getAssignee());
+        if (notEmpty(tasks)) {
+            final Task nextTask = tasks.iterator().next();
+            LOGGER.info("[user {}] Next task: {}, assignee: {}", username, nextTask.getName(), nextTask.getAssignee());
+        }
+
         return tasks;
     }
 }

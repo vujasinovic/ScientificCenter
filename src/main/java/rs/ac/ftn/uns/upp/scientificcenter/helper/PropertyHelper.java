@@ -3,6 +3,7 @@ package rs.ac.ftn.uns.upp.scientificcenter.helper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.camunda.bpm.engine.form.FormFieldValidationConstraint;
+import rs.ac.ftn.uns.upp.scientificcenter.handler.EvaluationHandler;
 import rs.ac.ftn.uns.upp.scientificcenter.handler.MagazineHandler;
 import rs.ac.ftn.uns.upp.scientificcenter.handler.ScientificAreaHandler;
 import rs.ac.ftn.uns.upp.scientificcenter.handler.UsersHandler;
@@ -11,10 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static rs.ac.ftn.uns.upp.scientificcenter.globals.PropertyName.Group.EDITORS;
-import static rs.ac.ftn.uns.upp.scientificcenter.globals.PropertyName.Group.REVIEWERS;
-import static rs.ac.ftn.uns.upp.scientificcenter.globals.PropertyName.Magazine.MAGAZINE;
-import static rs.ac.ftn.uns.upp.scientificcenter.globals.PropertyName.ScientificArea.SCIENTIFIC_AREA;
+import static rs.ac.ftn.uns.upp.scientificcenter.globals.PropertyName.*;
 import static rs.ac.ftn.uns.upp.scientificcenter.utils.ObjectUtils.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -31,6 +29,8 @@ class PropertyHelper {
                 availableValues = MagazineHandler.getAvailableMagazines();
             } else if (equalsAny(key, SCIENTIFIC_AREA)) {
                 availableValues = ScientificAreaHandler.getScientificAreas();
+            } else if (equalsAny(key, EVALUATION)) {
+                availableValues = EvaluationHandler.getEvaluations();
             }
         }
         return availableValues;

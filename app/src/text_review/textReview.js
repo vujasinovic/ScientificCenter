@@ -118,7 +118,7 @@ class TextReview extends Component {
         let {data} = await axios.post('/api/textReview/' + this.state.taskFormFields.taskId, requestData);
 
         if (data === "") {
-            window.location = "/";
+            window.location = "/finished";
         } else if (data.assignee !== this.state.me) {
             window.location = "/";
         } else {
