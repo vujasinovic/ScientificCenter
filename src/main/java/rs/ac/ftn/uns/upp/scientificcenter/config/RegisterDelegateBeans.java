@@ -33,5 +33,17 @@ public class RegisterDelegateBeans {
     }
 
     @Bean
-    public HandleCommentsService handleCommentsService() { return new HandleCommentsService(); }
+    public HandleCommentsService handleCommentsService() {
+        return new HandleCommentsService();
+    }
+
+    @Bean
+    public PersistArticleService persistArticleService() {
+        return new PersistArticleService();
+    }
+
+    @Bean
+    public ChangeArticleStatusService changeArticleStatusService() {
+        return new ChangeArticleStatusService();
+    }
 }

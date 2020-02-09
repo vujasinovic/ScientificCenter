@@ -25,4 +25,8 @@ public class Article {
     private String scientificArea;
 
     private String pdf;
+
+    private Boolean active;
+
+    private String doi;
 }

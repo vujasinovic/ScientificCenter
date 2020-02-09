@@ -10,4 +10,6 @@ public interface ArticleService {
     Article getOne(Long id);
 
     List<Article> findAll();
+
+    Article findByTitle(String title);
 }
