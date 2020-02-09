@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.camunda.bpm.engine.delegate.VariableScope;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -36,7 +35,7 @@ public class MailSenderService implements JavaDelegate {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mail = new MimeMessageHelper(mimeMessage, true);
         mail.setTo("naucna.centrala28@gmail.com");
-        mail.setText("Sent to: " + sendTo + "\n\n" + (String) content);
+        mail.setText("Sent to: " + sendTo + "\n\n" + content);
         mail.setSubject(subject);
         mail.setFrom("naucna.centrala28@gmail.com");
         mail.setSentDate(new Date());
