@@ -239,17 +239,17 @@
         <bpmn:userTask id="Task_0dwffe2" name="Paper correction" camunda:assignee="${initiator}">
             <bpmn:extensionElements>
                 <camunda:formData>
-                    <camunda:formField id="comment" label="Comment:" type="string" defaultValue="${comment}">
+                    <camunda:formField id="comment" label="Comment" type="string" defaultValue="${comment}">
                         <camunda:validation>
                             <camunda:constraint name="readonly" />
                         </camunda:validation>
                     </camunda:formField>
-                    <camunda:formField id="title" label="Title:" type="string" defaultValue="${title}">
+                    <camunda:formField id="title" label="Title" type="string" defaultValue="${title}">
                         <camunda:validation>
                             <camunda:constraint name="readonly" />
                         </camunda:validation>
                     </camunda:formField>
-                    <camunda:formField id="coauthor" label="Co-author:" type="string" defaultValue="${coauthor}">
+                    <camunda:formField id="coauthor" label="Co-author" type="string" defaultValue="${coauthor}">
                         <camunda:validation>
                             <camunda:constraint name="readonly" />
                         </camunda:validation>
@@ -259,12 +259,12 @@
                             <camunda:constraint name="readonly" />
                         </camunda:validation>
                     </camunda:formField>
-                    <camunda:formField id="abstract" label="Abstract:" type="string" defaultValue="${abstract}">
+                    <camunda:formField id="abstract" label="Abstract" type="string" defaultValue="${abstract}">
                         <camunda:validation>
                             <camunda:constraint name="readonly" />
                         </camunda:validation>
                     </camunda:formField>
-                    <camunda:formField id="pdf" label="Pdf:" type="string" defaultValue="${pdf}">
+                    <camunda:formField id="pdf" label="Pdf" type="string" defaultValue="${pdf}">
                         <camunda:validation>
                             <camunda:constraint name="required" />
                         </camunda:validation>
@@ -708,8 +708,7 @@
         <bpmn:serviceTask id="ServiceTask_0723x03" name="Send email notification" camunda:delegateExpression="${mailSenderService}">
             <bpmn:extensionElements>
                 <camunda:field name="content">
-                    <camunda:expression>
-                        Please make adjustments to your article</camunda:expression>
+                    <camunda:expression>Please make adjustments to your article</camunda:expression>
                 </camunda:field>
                 <camunda:field name="sendTo">
                     <camunda:expression>${initiator}</camunda:expression>
